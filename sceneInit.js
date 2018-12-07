@@ -6,21 +6,11 @@ const sceneInit = (function() {
 return {
 
     // Création et ajout de lumière dans le graphe de scène
-insertLight: function(sceneGraph,p) {
-        const spotLight = new THREE.SpotLight(0xffffff,0.8);
-        spotLight.position.copy(p);
-
-        spotLight.castShadow = true;
-        spotLight.shadow.mapSize.width = 2048;
-        spotLight.shadow.mapSize.height = 2048;
-
+insertLight: function(sceneGraph) {
+        const spotLight = new THREE.SpotLight(0xffffff);
+        spotLight.position.set(-5,8,0);
         sceneGraph.add(spotLight);
     },
-
-insertAmbientLight: function(sceneGraph) {
-    const ambient = new THREE.AmbientLight( 0xffffff, 0.2 );
-    sceneGraph.add(ambient);
-},
 
     // Création et ajout d'une caméra dans le graphe de scène
 createCamera: function(x,y,z) {
@@ -33,13 +23,10 @@ createCamera: function(x,y,z) {
 
     // Initialisation du moteur de rendu
 createRenderer : function(){
-        const renderer = new THREE.WebGLRenderer( {antialias:true} );
+        const renderer = new THREE.WebGLRenderer( );
         renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setClearColor(0xffffff,1.0);
+        renderer.setClearColor(0xaaaaaa,1.0);
         renderer.setSize( window.innerWidth, window.innerHeight );
-
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.Type = THREE.PCFSoftShadowMap;
 
         return renderer;
     },
