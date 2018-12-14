@@ -11,11 +11,13 @@ function getBody() {
 //    baseShape.lineTo(0,2);
 //    baseShape.lineTo(2.5,2.5);
 //    baseShape.lineTo(0,3);
-    const array = [new THREE.Vector2(0,0),
-		   new THREE.Vector2(-1,1),
-		   new THREE.Vector2(-0.25,2),
-		   new THREE.Vector2(-0.5,2.5),
-		   new THREE.Vector2(0,3)];
+    const array = [new THREE.Vector2(1.75,0.5),
+		   new THREE.Vector2(0,0),
+		   new THREE.Vector2(-1.75,0.5),
+		   new THREE.Vector2(-2,1),
+		   new THREE.Vector2(-.75,2),
+		   new THREE.Vector2(0,2.5),
+		   new THREE.Vector2(0.75,2)];
     baseShape.splineThru(array);
     //baseShape.lineTo(0,0);
     const circleCurve = new THREE.EllipseCurve(0,0,0.5,0.5);
@@ -49,6 +51,10 @@ function getBody() {
     //const circlePath = new THREE.CatmullRomCurve3(points);
     //console.log(circlePath);
     //const bodyGeometry = new THREE.ExtrudeGeometry(baseShape, {extrudePath:circlePath, steps:10, bevelEnabled:false})//, {extrudePath: circleCurve});
+    bodyGeometry.computeFaceNormals();
+    bodyGeometry.computeFlatVertexNormals();
+    bodyGeometry.computeMorphNormals();
+    bodyGeometry.computeVertexNormals();
     console.log(bodyGeometry);
     const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshBasicMaterial({color:0x00ff00}));
     sceneThreeJs.sceneGraph.add(bodyMesh);
