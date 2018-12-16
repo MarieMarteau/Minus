@@ -1,0 +1,286 @@
+/* Icons from the free dataset : http://www.rw-designer.com/cursor-library
+Slider inspiration CSS tricks */
+
+html {
+ height: 100%;
+ max-with:960px;
+}
+
+body {
+  text-align: justify;
+  font-family: sans-serif;
+}
+
+.bouton {
+  width: 6em;
+  height: 3em;
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 12px;
+  font-size: 1.2em;
+  cursor: pointer;
+  outline: none;
+}
+
+.bouton:hover{
+  background-color: DarkBlue;
+}
+
+.bouton:focus{
+  background-color: Purple;
+}
+
+#pencil {
+  position: absolute;
+  top: 10%;
+  right: 1%;
+  cursor: url("logos/pencil.cur"), pointer;
+}
+
+
+#brush {
+  position: absolute;
+  top: 18%;
+  right: 1%;
+  cursor: url("logos/brush.cur"), pointer;
+}
+
+#eraser {
+  position: absolute;
+  top: 28%;
+  right: 1%;
+  cursor: url("logos/eraser.cur"), pointer;
+}
+
+#layer {
+  position: absolute;
+  top: 36%;
+  right: 1%;
+  cursor: url("logos/layer.cur"), pointer;
+}
+
+#cut {
+  position: absolute;
+  top: 48%;
+  right: 1%;
+  padding: 10px 12px;
+  cursor: url("logos/scissors.cur"), pointer;
+}
+
+#grab{
+  position: absolute;
+  top: 56%;
+  right: 1%;
+  padding: 10px 12px;
+  cursor: grab;
+}
+
+#cancel {
+  position: absolute;
+  top: 64%;
+  right: 1%;
+}
+
+#help {
+  position: absolute;
+  top: 72%;
+  right: 1%;
+  cursor: help;
+}
+
+#AffichageScene3D{
+  width: 80%;
+  margin-right:245px;
+  border:none;
+  height: 100vh;
+}
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 40em;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0px;
+    margin-top: -400px;
+    margin-right: 400px;
+    position: absolute;
+    z-index: 1;
+    top: 0%;
+    right: 100%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 6em;
+  height: 6.25em;
+  font: 0.9em/1 arial, sans-serif;
+  position: absolute;
+  padding: 12px 15px;
+  top:20%;
+  right: 2%;
+}
+
+.wrapLayer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 6em;
+  height: 6.25em;
+  font: 0.9em/1 arial, sans-serif;
+  position: absolute;
+  padding: 12px 15px;
+  top:38.5%;
+  right: 2%;
+}
+
+.wrapVolume {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 6em;
+  height: 6.25em;
+  font: 0.9em/1 arial, sans-serif;
+  position: absolute;
+  padding: 12px 15px;
+  top:4%;
+  right: 2%;
+}
+
+
+#volumeId {
+  display: block;
+  font-size: 16px;
+  margin: 0 0 2em 0;
+}
+
+#volumeId [type=range] {
+  float: left;
+  width: calc(100% - 40px);
+}
+
+#outputVolume{
+  left: 3em;
+}
+
+[type='range'] {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  min-height: 1.5em;
+  background: transparent;
+  font: inherit;
+}
+[type='range'], [type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+[type='range']::-webkit-slider-runnable-track {
+  box-sizing: border-box;
+  border: none;
+  width: 6em;
+  height: 0.25em;
+  background: LightGrey;
+}
+[type='range']::-moz-range-track {
+  box-sizing: border-box;
+  border: none;
+  width: 6em;
+  height: 0.25em;
+  background: LightGrey;
+}
+[type='range']::-ms-track {
+  box-sizing: border-box;
+  border: none;
+  width: 6em;
+  height: 0.25em;
+  background: LightGrey;
+}
+[type='range']::-webkit-slider-thumb {
+  margin-top: -0.625em;
+  box-sizing: border-box;
+  border: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 75%;
+  background: DodgerBlue;
+}
+[type='range']::-moz-range-thumb {
+  box-sizing: border-box;
+  border: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: DodgerBlue;
+}
+[type='range']::-ms-thumb {
+  margin-top: 0;
+  box-sizing: border-box;
+  border: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: DodgerBlue;
+}
+[type='range']::-ms-tooltip {
+  display: none;
+}
+[type='range'] ~ output {
+  display: none;
+}
+.js [type='range'] ~ output {
+  display: block;
+  position: absolute;
+  left: 1.75em;
+  top: 1.2em;
+  padding: .25em .5em;
+  border-radius: 9px;
+  transform: translate(calc((var(--val) - var(--min))/(var(--max) - var(--min))*7.5em - 50%));
+  background: DodgerBlue;
+  color: white;
+}
