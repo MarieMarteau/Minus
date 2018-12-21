@@ -7,6 +7,24 @@ const sceneThreeJs = {
     renderer: null
 };
 
+const skeleton = {
+    numberOfPoints: 0,
+    points: [],
+    ranges: []
+}
+
+function f(point) {
+    let distance = 0;
+    let S = 0;
+    for(let i=0; i<skeleton.numberOfPoints; i=i+1) {
+	distance = (point.x-skeleton.points[i].x)^2 + (point.y-skeleton.points[i].y)^2 + (point.z-skeleton.points[i].z)^2
+	if(distance < skeleton.ranges[i]) {
+	    S += 1 - distance/skeleton.ranges[i]; //placeholder
+	}
+    }
+    return S;
+}
+
 main();
 
 function main() {
@@ -14,6 +32,8 @@ function main() {
     // Initialisation de la scène et des objets
     initEmptyScene();
     init3DObjects();
+
+    getBody();
 
     // Lancement de la boucle d'initialisation
     animationLoop();
