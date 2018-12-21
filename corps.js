@@ -29,8 +29,8 @@ function getBody(sceneGraph,array) {
     let bodyGeometry = new THREE.Geometry();
     const shapePoints = baseShape.getPoints();
 //ATTENTION : il faudra s'assurer que shapePoints est trie par coord. "y" croissante pour ne pas planter les calculs d'enveloppe convexe (ici garanti par la definition de array)
-    const maxI = 100
-    const circleRadius = 0.5
+    const maxI = 50
+    const circleRadius = 1
     for(let j=0; j<shapePoints.length; j++) {
 	if(shapePoints[j].x == 0) {
 	    bodyPointsBuffer2.push(new THREE.Vector3(shapePoints[j].x, shapePoints[j].y, 0))
