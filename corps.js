@@ -1,6 +1,6 @@
 "use strict";
 
-function getBody(sceneGraph,array) {
+function getBody() {
     //const baseShape = new THREE.SplineCurve([new THREE.Vector2(0,0),
 //					   new THREE.Vector2(-1,1),
 //					   new THREE.Vector2(0,2),
@@ -11,13 +11,13 @@ function getBody(sceneGraph,array) {
 //    baseShape.lineTo(0,2);
 //    baseShape.lineTo(2.5,2.5);
 //    baseShape.lineTo(0,3);
-    /*const array = [new THREE.Vector2(1.75,0.5),
+    const array = [new THREE.Vector2(1.75,0.5),
 		   new THREE.Vector2(0,0),
 		   new THREE.Vector2(-1.75,0.5),
 		   new THREE.Vector2(-2,1),
 		   new THREE.Vector2(-.75,2),
 		   new THREE.Vector2(0,2.5),
-		   new THREE.Vector2(0.75,2)];*/
+		   new THREE.Vector2(0.75,2)];
     baseShape.splineThru(array);
     //baseShape.lineTo(0,0);
     const circleCurve = new THREE.EllipseCurve(0,0,0.5,0.5);
@@ -27,10 +27,10 @@ function getBody(sceneGraph,array) {
     let bodyPointsBuffer1 = []
     let bodyPointsBuffer2 = []
     let bodyGeometry = new THREE.Geometry();
-    const shapePoints = baseShape.getSpacedPoints(128);
+    const shapePoints = baseShape.getPoints();
 //ATTENTION : il faudra s'assurer que shapePoints est trie par coord. "y" croissante pour ne pas planter les calculs d'enveloppe convexe (ici garanti par la definition de array)
-    const maxI = 256
-    const circleRadius = 1
+    const maxI = 100
+    const circleRadius = 0.5
     for(let j=0; j<shapePoints.length; j++) {
 	if(shapePoints[j].x == 0) {
 	    bodyPointsBuffer2.push(new THREE.Vector3(shapePoints[j].x, shapePoints[j].y, 0))
@@ -54,12 +54,8 @@ function getBody(sceneGraph,array) {
     bodyGeometry.computeFaceNormals();
     bodyGeometry.computeFlatVertexNormals();
     bodyGeometry.computeMorphNormals();
+    bodyGeometry.computeVertexNormals();
     console.log(bodyGeometry);
-    const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
-    bodyMesh.name = "body";
-    bodyMesh.castShadow = true;
-    sceneGraph.add(bodyMesh);
-};
-
-
-
+    const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshBasicMaterial({color:0x00ff00}));
+    sceneThreeJs.sceneGraph.add(bodyMesh);
+}
