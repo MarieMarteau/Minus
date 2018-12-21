@@ -13,6 +13,11 @@ function main(){
 
   // Données pour le dessin
   const drawingData = {
+	  
+	//Permet de définir le mode d'action
+	DessinCorpsEnabled:true,
+	DessinNageoiresEnabled:false,
+	  
     drawingObjects: [],
     selectedObject: null,
     enableDrawing: false,
@@ -21,8 +26,13 @@ function main(){
 	doigtsNageoires:[],
   };
   
+  const Minus = {
+        corps:null,
+		nageoires:null,
+    };
+  
   initEmptyScene(sceneThreeJs);
-  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData);
+  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData);  
 
   const screenSize = {
     w:sceneThreeJs.renderer.domElement.clientWidth,
@@ -32,13 +42,13 @@ function main(){
   const raycaster = new THREE.Raycaster();
 
   ///////////// Mouse Events ////////////////////////////////////////////////////////////
-  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData); };
+  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
   document.addEventListener( 'mousedown', wrapperMouseDown );
  
-  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData) };
+  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus) };
   document.addEventListener( 'mousemove', wrapperMouseMove );
 
-  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData); };
+  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
   document.addEventListener( 'mouseup', wrapperMouseUp );
 
   

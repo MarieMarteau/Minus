@@ -27,9 +27,9 @@ function getBody(sceneGraph,array) {
     let bodyPointsBuffer1 = []
     let bodyPointsBuffer2 = []
     let bodyGeometry = new THREE.Geometry();
-    const shapePoints = baseShape.getSpacedPoints(128);
+    const shapePoints = baseShape.getPoints();
 //ATTENTION : il faudra s'assurer que shapePoints est trie par coord. "y" croissante pour ne pas planter les calculs d'enveloppe convexe (ici garanti par la definition de array)
-    const maxI = 256
+    const maxI = 50
     const circleRadius = 1
     for(let j=0; j<shapePoints.length; j++) {
 	if(shapePoints[j].x == 0) {
@@ -54,12 +54,13 @@ function getBody(sceneGraph,array) {
     bodyGeometry.computeFaceNormals();
     bodyGeometry.computeFlatVertexNormals();
     bodyGeometry.computeMorphNormals();
+    bodyGeometry.computeVertexNormals();
     console.log(bodyGeometry);
     const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
-    bodyMesh.name = "body";
-    bodyMesh.castShadow = true;
+	bodyMesh.name="body";
+	bodyMesh.castShadow=true;
     sceneGraph.add(bodyMesh);
-};
+}; 
 
 
 

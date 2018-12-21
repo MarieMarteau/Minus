@@ -4,7 +4,7 @@ const mouseEvents = (function() {
 
   return {
 
-    onMouseDown: function(event, scene, camera, raycaster, screenSize, drawingData) {
+    onMouseDown: function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
 
       if( event.button == 0 ) { // activation si la click gauche est enfoncée
         // Coordonnées du clic de souris
@@ -16,13 +16,12 @@ const mouseEvents = (function() {
 			
 
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
-		//utilsDrawing.creationBody(raycaster, camera, x ,y, drawingData,scene, true);
         drawingData.enableDrawing = true;
       }
 
     },
 
-    onMouseMove: function( event, scene, camera, raycaster, screenSize, drawingData){
+    onMouseMove: function( event, scene, camera, raycaster, screenSize, drawingData,Minus){
       // Coordonnées de la position de la souris
       const xPixel = event.clientX;
       const yPixel = event.clientY;
@@ -32,13 +31,22 @@ const mouseEvents = (function() {
 
       if (drawingData.enableDrawing == true){
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
-		//utilsDrawing.creationBody(raycaster, camera, x ,y, drawingData,scene, true);
       }
 
     },
 
-    onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData) {
-		utilsDrawing.creationBody(raycaster, camera, drawingData,scene, true);
+    onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
+		if (drawingData.DessinCorpsEnabled){
+			utilsDrawing.creationBody(raycaster, camera, drawingData,scene, true);
+			Minus.corps = scene.getObjectByName("body");
+			drawingData.DessinCorpsEnabled=false;
+			drawingData.DessinNageoiresEnabled=true;
+			drawingData.drawing3DPoints=[];
+		}
+		
+		else if (drawingData.DessinNageoiresEnabled){
+			utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
+		}
 		//utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
       drawingData.enableDrawing = false;
 
