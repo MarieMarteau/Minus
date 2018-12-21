@@ -56,7 +56,9 @@ function getBody(sceneGraph,array) {
     bodyGeometry.computeMorphNormals();
     bodyGeometry.computeVertexNormals();
     console.log(bodyGeometry);
-    const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshBasicMaterial({color:0x00ff00}));
+    const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
+	bodyMesh.name="body";
+	bodyMesh.castShadow=true;
     sceneGraph.add(bodyMesh);
 }; 
 
