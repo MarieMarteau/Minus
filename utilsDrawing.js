@@ -168,15 +168,17 @@ const utilsDrawing = (function() {
 	
 	//Mise en forme courbe
 	const PointsAiles = drawingData.drawing3DPoints;
+	const Points2DAiles = [];
 	const x = PointsAiles[0].x;
 	const y = PointsAiles[0].y;
 		for (let i = 0; i<PointsAiles.length;i++){
-				PointsAiles[i].x = PointsAiles[i].x-x;
-				PointsAiles[i].y = PointsAiles[i].y-y;
+				Points2DAiles.push(new THREE.Vector2(PointsAiles[i].x-x,PointsAiles[i].y-y));
 			}
 
     // Définition du chemin à parcourir 
     const Spline =  new THREE.CatmullRomCurve3( PointsAiles );
+	drawingData.doigtsNageoires.push(Points2DAiles);
+	console.log(drawingData.doigtsNageoires);
 	
 	// Création de la forme extrudée 
     const extrudeSettings = {
@@ -189,8 +191,6 @@ const utilsDrawing = (function() {
     const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
     extrudeObject.material.side = THREE.DoubleSide; 
     scene.add( extrudeObject );
-	
-	drawingData.doigtsAiles.push(extrudeObject);
  
 	},
 	
@@ -201,16 +201,7 @@ const utilsDrawing = (function() {
 	
 	
 	creationAile: function(raycaster, camera, drawingData, scene, down){
-		
-		const PointsAiles = drawingData.linesAiles;
-		for (let i = 0; i<PointsAiles.length;i++){
-			const x = PointsAiles[i][0].x;
-			const y = PointsAiles[i][0].y;
-			for (let j = 0; j<PointsAiles[i].length;j++){
-				PointsAiles[i][j].x = PointsAiles[i][j].x-x;
-				PointsAiles[i][j].y = PointsAiles[i][j].y-y;
-			}
-		}
+		return drawingData.doigtsNageoires;
 	},
 
 

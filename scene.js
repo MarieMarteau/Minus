@@ -18,8 +18,7 @@ function main(){
     enableDrawing: false,
     drawing3DPoints:[],
     line: null,
-	doigtsAiles:[],
-	linesAiles:[],
+	doigtsNageoires:[],
   };
 
   initEmptyScene(sceneThreeJs);
