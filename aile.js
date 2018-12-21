@@ -1,26 +1,32 @@
 "use strict";
 
 function creationSurfaces(verticesArray, material) {
-    const width = 0.1;
+    const width = 1;
+    const nbSamples = 100;
     const l = verticesArray.length;
     if(l<2) return new THREE.Mesh();
     const geometry = new THREE.Geometry();
-    for(let i=0; i<l-1; i++) {
-	const firstLine = verticesArray[i];
-	const secondLine = verticesArray[i+1];
-	for(let j=0; j<firstLine.length-1; j++) {
-	    const array = [firstLine[j],
-			   firstLine[j+1],
-			   secondLine[j],
-			   secondLine[j+1],
-			   new THREE.Vector3(firstLine[j].x, firstLine[j].y, firstLine[j].z+width),
-			   new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, firstLine[j+1].z+width),
-			   new THREE.Vector3(secondLine[j].x, secondLine[j].y, secondLine[j].z+width),
-			   new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, secondLine[j+1].z+width)];
-	    const partialGeom = new THREE.ConvexGeometry(array);
-	    geometry.merge(partialGeom);
+    for(let i=0; i<l; i++) {
+	for(let k=0; k<i; k++) {
+	    const firstShape = new THREE.CatmullRomCurve3(verticesArray[i]);
+	    const secondShape = new THREE.CatmullRomCurve3(verticesArray[k]);
+	    const firstLine = firstShape.getSpacedPoints(nbSamples);
+	    const secondLine = secondShape.getSpacedPoints(nbSamples);
+	    for(let j=0; j<firstLine.length-1 && j<secondLine.length-1; j++) {
+		const array = [new THREE.Vector3(firstLine[j].x, firstLine[j].y, 0),
+			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, 0),
+			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, 0),
+			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, 0),
+			       new THREE.Vector3(firstLine[j].x, firstLine[j].y, width),
+			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, width),
+			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, width),
+			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, width)];
+		const partialGeom = new THREE.ConvexGeometry(array);
+		geometry.merge(partialGeom);
+	    }
 	}
     }
+    console.log(geometry);
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
 }
