@@ -4,7 +4,7 @@ function creationSurfaces(verticesArray, material) {
     const l = verticesArray.length;
     if(l<2) return;
     const vertices = verticesArray.flatten();
-    const geometry;
+    const geometry=new THREE.Geometry();
     geometry.vertices = vertices;
     triangles = THREE.ShapeUtils.triangulateShape(vertices, holes);
     for(let i=0; i<triangles.length; i++) {

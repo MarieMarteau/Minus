@@ -39,7 +39,7 @@ const mouseEvents = (function() {
 
     onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData) {
 		utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
-		//utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
+		utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
       drawingData.enableDrawing = false;
 
       if (drawingData.drawing3DPoints.length > 0){

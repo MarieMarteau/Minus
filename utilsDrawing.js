@@ -201,7 +201,7 @@ const utilsDrawing = (function() {
 	
 	
 	creationAile: function(raycaster, camera, drawingData, scene, down){
-		return drawingData.doigtsNageoires;
+		creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00})) ;
 	},
 
 
