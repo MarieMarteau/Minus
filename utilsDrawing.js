@@ -155,6 +155,10 @@ const utilsDrawing = (function() {
 	},*/
 
 	
+	
+	
+	//Utilisé précédemment :
+	/*
 	extrusionFinger: function(raycaster, camera, drawingData, scene, down){
 	
 	// Définition d'un polygone 2D
@@ -194,6 +198,49 @@ const utilsDrawing = (function() {
  
 	},
 	
+	
+	*/
+	
+	
+	
+	extrusionFinger: function(raycaster, camera, drawingData, scene, down){
+	
+	// Définition d'un polygone 2D
+    let pts=[];
+
+    pts.push(new THREE.Vector2(2, -2));
+    pts.push(new THREE.Vector2(-2, -2));
+    pts.push(new THREE.Vector2(-2,0));
+    pts.push(new THREE.Vector2(2, 0));
+    const shape = new THREE.Shape( pts );
+	
+	//Mise en forme courbe
+	const PointsAiles = drawingData.drawing3DPoints;
+	const Points2DAiles = [];
+	const x = PointsAiles[0].x;
+	const y = PointsAiles[0].y;
+		for (let i = 0; i<PointsAiles.length;i++){
+				Points2DAiles.push(new THREE.Vector3(PointsAiles[i].x-x,PointsAiles[i].y-y,0));
+			}
+
+    // Définition du chemin à parcourir 
+    const Spline =  new THREE.CatmullRomCurve3( drawingData.drawing3DPoints );
+	drawingData.doigtsNageoires.push(drawingData.drawing3DPoints);
+	console.log(drawingData.doigtsNageoires);
+	
+	// Création de la forme extrudée 
+    const extrudeSettings = {
+	steps: 200,
+	bevelEnabled: false,
+	extrudePath: Spline
+};
+
+    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+    const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
+    extrudeObject.material.side = THREE.DoubleSide; 
+    scene.add( extrudeObject );
+ 
+	},
 	
 	
 	

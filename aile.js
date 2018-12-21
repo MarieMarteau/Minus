@@ -13,14 +13,14 @@ function creationSurfaces(verticesArray, material) {
 	    const firstLine = firstShape.getSpacedPoints(nbSamples);
 	    const secondLine = secondShape.getSpacedPoints(nbSamples);
 	    for(let j=0; j<firstLine.length-1 && j<secondLine.length-1; j++) {
-		const array = [new THREE.Vector3(firstLine[j].x, firstLine[j].y, 0),
-			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, 0),
-			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, 0),
-			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, 0),
-			       new THREE.Vector3(firstLine[j].x, firstLine[j].y, width),
-			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, width),
-			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, width),
-			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, width)];
+		const array = [new THREE.Vector3(firstLine[j].x, firstLine[j].y, firstLine[j].z),
+			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, firstLine[j+1].z),
+			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, secondLine[j].z),
+			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, secondLine[j+1].z),
+			       new THREE.Vector3(firstLine[j].x, firstLine[j].y, firstLine[j].z+width),
+			       new THREE.Vector3(firstLine[j+1].x, firstLine[j+1].y, firstLine[j+1].z + width),
+			       new THREE.Vector3(secondLine[j].x, secondLine[j].y, secondLine[j].z+ width),
+			       new THREE.Vector3(secondLine[j+1].x, secondLine[j+1].y, secondLine[j+1].z + width)];
 		const partialGeom = new THREE.ConvexGeometry(array);
 		geometry.merge(partialGeom);
 	    }

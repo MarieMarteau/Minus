@@ -49,13 +49,22 @@ function main(){
 
 function init3DObjects(camera,sceneGraph, drawingData) {
 
-  const planeGeometry = primitive.Quadrangle(new THREE.Vector3(-100,-50,0),new THREE.Vector3(-100,50,0),new THREE.Vector3(100,50,0),new THREE.Vector3(100,-50,0));
+ /* const planeGeometry = primitive.Quadrangle(new THREE.Vector3(-100,-50,0),new THREE.Vector3(-100,50,0),new THREE.Vector3(100,50,0),new THREE.Vector3(100,-50,0));
   const materialGround = new THREE.MeshLambertMaterial({ color: 0xC0C0C0, side: THREE.DoubleSide });
   const plane = new THREE.Mesh(planeGeometry,materialGround);
   plane.name="plane";
   plane.receiveShadow = true;
   drawingData.drawingObjects.push(plane);
-  sceneGraph.add(plane);
+  sceneGraph.add(plane);*/
+  
+  
+  const SGeometry = new THREE.SphereGeometry(60,32,32);
+  const materialS = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const sphere = new THREE.Mesh(SGeometry,materialS);
+  sphere.name="sphere";
+  sphere.receiveShadow = true;
+  drawingData.drawingObjects.push(sphere);
+  sceneGraph.add(sphere);
 
 }
 
