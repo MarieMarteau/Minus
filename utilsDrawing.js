@@ -4,7 +4,86 @@ const utilsDrawing = (function() {
 
   return {
 
-    find3DPoint: function(raycaster, camera, xPosition ,yPosition,drawingData, scene, down){
+    /*find3DPoint: function(raycaster, camera, xPosition ,yPosition,drawingData, scene, down){
+      raycaster.setFromCamera(new THREE.Vector2(xPosition,yPosition),camera);
+
+      const intersects = raycaster.intersectObjects( drawingData.drawingObjects );
+      const nbrIntersection = intersects.length;
+      if( nbrIntersection>0 ) {
+
+        let intersection = intersects[0];
+        // Sauvegarde des données du drawing
+        if (down){
+          drawingData.selectedObject = intersection.object; // objet selectionné
+        } else {
+          if (intersection.object != drawingData.selectedObject){
+            return;
+          } else {
+            let intersection = intersects[0];
+          }
+        }
+        drawingData.drawing3DPoints.push(intersection.point.clone());
+
+        if (down == false && drawingData.line.is_ob){
+          scene.remove(drawingData.line);
+        }
+
+				
+        const lineGeometry = new THREE.Geometry();
+        lineGeometry.vertices = drawingData.drawing3DPoints;
+        const lineMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
+        drawingData.line = new THREE.Line( lineGeometry, lineMaterial );
+        drawingData.line.is_ob = true;
+        scene.add(drawingData.line);		
+		
+		
+    }
+
+	
+    },*/
+	
+	
+	
+	
+	find3DPoint: function(raycaster, camera, xPosition ,yPosition,drawingData, scene, down){
+      raycaster.setFromCamera(new THREE.Vector2(xPosition,yPosition),camera);
+
+      const intersects = raycaster.intersectObjects( drawingData.drawingObjects );
+      const nbrIntersection = intersects.length;
+      if( nbrIntersection>0 ) {
+
+        let intersection = intersects[0];
+        // Sauvegarde des données du drawing
+        if (down){
+          drawingData.selectedObject = intersection.object; // objet selectionné
+        } else {
+          if (intersection.object != drawingData.selectedObject){
+            return;
+          } else {
+            let intersection = intersects[0];
+          }
+        }
+        drawingData.drawing3DPoints.push(intersection.point.clone());
+
+        if (down == false && drawingData.line.is_ob){
+          scene.remove(drawingData.line);
+        }
+				
+        const lineGeometry = new THREE.Geometry();
+        lineGeometry.vertices = drawingData.drawing3DPoints;
+        const lineMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
+        drawingData.line = new THREE.Line( lineGeometry, lineMaterial );
+        drawingData.line.is_ob = true;
+        scene.add(drawingData.line);		
+		
+		
+    }
+
+	
+    },
+	
+	
+	createBody: function(raycaster, camera, xPosition ,yPosition,drawingData, scene, down){
       raycaster.setFromCamera(new THREE.Vector2(xPosition,yPosition),camera);
 
       const intersects = raycaster.intersectObjects( drawingData.drawingObjects );
@@ -43,7 +122,7 @@ const utilsDrawing = (function() {
     },
 	
 	
-	extrusionFinger: function(raycaster, camera, drawingData, scene, down){
+	/*extrusionFinger: function(raycaster, camera, drawingData, scene, down){
 	
 	// Définition d'un polygone 2D
     let pts=[];
@@ -58,7 +137,6 @@ const utilsDrawing = (function() {
     const Spline =  new THREE.CatmullRomCurve3( drawingData.drawing3DPoints );
 	
 	drawingData.linesAiles.push(drawingData.drawing3DPoints);
-	console.log(drawingData.linesAiles);
 
     // Création de la forme extrudée 
     const extrudeSettings = {
@@ -74,13 +152,65 @@ const utilsDrawing = (function() {
 	
 	drawingData.doigtsAiles.push(extrudeObject);
  
-	},
+	},*/
 
 	
-	creationAile: function(raycaster, camera, drawingData, scene, down){
-	drawingData.doigtsAiles[0].position.set(10,10,10);
+	extrusionFinger: function(raycaster, camera, drawingData, scene, down){
 	
+	// Définition d'un polygone 2D
+    let pts=[];
+
+    pts.push(new THREE.Vector2(2, -2));
+    pts.push(new THREE.Vector2(-2, -2));
+    pts.push(new THREE.Vector2(-2,0));
+    pts.push(new THREE.Vector2(2, 0));
+    const shape = new THREE.Shape( pts );
+	
+	//Mise en forme courbe
+	const PointsAiles = drawingData.drawing3DPoints;
+	const x = PointsAiles[0].x;
+	const y = PointsAiles[0].y;
+		for (let i = 0; i<PointsAiles.length;i++){
+				PointsAiles[i].x = PointsAiles[i].x-x;
+				PointsAiles[i].y = PointsAiles[i].y-y;
+			}
+
+    // Définition du chemin à parcourir 
+    const Spline =  new THREE.CatmullRomCurve3( PointsAiles );
+	
+	// Création de la forme extrudée 
+    const extrudeSettings = {
+	steps: 200,
+	bevelEnabled: false,
+	extrudePath: Spline
+};
+
+    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+    const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
+    extrudeObject.material.side = THREE.DoubleSide; 
+    scene.add( extrudeObject );
+	
+	drawingData.doigtsAiles.push(extrudeObject);
  
+	},
+	
+	
+	
+	
+	
+	
+	
+	creationAile: function(raycaster, camera, drawingData, scene, down){
+		
+		const PointsAiles = drawingData.linesAiles;
+		for (let i = 0; i<PointsAiles.length;i++){
+			const x = PointsAiles[i][0].x;
+			const y = PointsAiles[i][0].y;
+			for (let j = 0; j<PointsAiles[i].length;j++){
+				PointsAiles[i][j].x = PointsAiles[i][j].x-x;
+				PointsAiles[i][j].y = PointsAiles[i][j].y-y;
+			}
+		}
 	},
 
 

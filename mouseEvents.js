@@ -16,6 +16,7 @@ const mouseEvents = (function() {
 			
 
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
+		//utilsDrawing.createBody(raycaster, camera, x ,y, drawingData,scene, true);
         drawingData.enableDrawing = true;
       }
 
@@ -30,14 +31,15 @@ const mouseEvents = (function() {
       const y = -2*yPixel/screenSize.h+1;
 
       if (drawingData.enableDrawing == true){
-        utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, false);
+        utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
+		//utilsDrawing.createBody(raycaster, camera, x ,y, drawingData,scene, true);
       }
 
     },
 
     onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData) {
 		utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
-		utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
+		//utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
       drawingData.enableDrawing = false;
 
       if (drawingData.drawing3DPoints.length > 0){
