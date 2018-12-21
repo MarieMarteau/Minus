@@ -176,7 +176,7 @@ const utilsDrawing = (function() {
 			}
 
     // Définition du chemin à parcourir 
-    const Spline =  new THREE.CatmullRomCurve3( PointsAiles );
+    const Spline =  new THREE.CatmullRomCurve3( Points2DAiles );
 	drawingData.doigtsNageoires.push(Points2DAiles);
 	console.log(drawingData.doigtsNageoires);
 	
@@ -201,7 +201,7 @@ const utilsDrawing = (function() {
 	
 	
 	creationAile: function(raycaster, camera, drawingData, scene, down){
-		creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00})) ;
+		scene.add(creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00})));
 	},
 
 
