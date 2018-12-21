@@ -172,7 +172,7 @@ const utilsDrawing = (function() {
 	const x = PointsAiles[0].x;
 	const y = PointsAiles[0].y;
 		for (let i = 0; i<PointsAiles.length;i++){
-				Points2DAiles.push(new THREE.Vector2(PointsAiles[i].x-x,PointsAiles[i].y-y));
+				Points2DAiles.push(new THREE.Vector3(PointsAiles[i].x-x,PointsAiles[i].y-y,0));
 			}
 
     // Définition du chemin à parcourir 
