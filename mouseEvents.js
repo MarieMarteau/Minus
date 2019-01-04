@@ -59,6 +59,23 @@ const mouseEvents = (function() {
       }
 
     },
+	
+	// Fonction appelée lors de l'appuis sur une touche du clavier
+	onKeyDown : function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
+		
+		const keyCode = event.code;
+		console.log("Touche ",keyCode," enfoncé");
+	},
+	
+	onKeyUp : function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
+
+		const keyCode = event.code;
+		console.log("Touche ",keyCode," relaché");
+		
+		if (drawingData.DessinNageoiresEnabled){
+			deplacerSphere(keyCode, scene);
+		}
+	},
 
   };
 })();

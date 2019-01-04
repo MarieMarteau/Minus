@@ -50,6 +50,12 @@ function main(){
 
   const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
   document.addEventListener( 'mouseup', wrapperMouseUp );
+  
+  const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  document.addEventListener( 'keyup', wrapperKeyUp );
+  
+  const wrapperKeyDown = function(event) { mouseEvents.onKeyDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  document.addEventListener( 'keydown', wrapperKeyDown );
 
   
 
@@ -67,14 +73,23 @@ function init3DObjects(camera,sceneGraph, drawingData) {
   drawingData.drawingObjects.push(plane);
   sceneGraph.add(plane);
   
+  const lineGeometry = new THREE.Geometry();
+  const materialLine = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+  lineGeometry.vertices.push(new THREE.Vector3( 0, 50, 0.01) );
+  lineGeometry.vertices.push(new THREE.Vector3( 0, -50, 0.01) );
+  const line = new THREE.Line( lineGeometry, materialLine );
+  line.name="line";
+  sceneGraph.add(line);
   
-  const SGeometry = new THREE.SphereGeometry(60,32,32);
+  
+  const SGeometry = new THREE.SphereGeometry(45,32,32);
   const materialS = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
   const sphere = new THREE.Mesh(SGeometry,materialS);
   sphere.name="sphere";
   sphere.receiveShadow = true;
   drawingData.drawingObjects.push(sphere);
   sphere.visible = false;
+  sphere.position.set(15,0,0);
   sceneGraph.add(sphere);
 
 }
