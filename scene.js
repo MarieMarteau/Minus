@@ -66,6 +66,16 @@ function init3DObjects(camera,sceneGraph, drawingData) {
   plane.receiveShadow = true;
   drawingData.drawingObjects.push(plane);
   sceneGraph.add(plane);
+  
+  
+  const SGeometry = new THREE.SphereGeometry(60,32,32);
+  const materialS = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const sphere = new THREE.Mesh(SGeometry,materialS);
+  sphere.name="sphere";
+  sphere.receiveShadow = true;
+  drawingData.drawingObjects.push(sphere);
+  sphere.visible = false;
+  sceneGraph.add(sphere);
 
 }
 
