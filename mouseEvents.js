@@ -37,22 +37,12 @@ const mouseEvents = (function() {
 
     onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
 		
-		const plane = scene.getObjectByName("plane");
-		const sphere = scene.getObjectByName("sphere");
-		
 		if (drawingData.DessinCorpsEnabled){
-			utilsDrawing.creationBody(raycaster, camera, drawingData,scene, true);
-			Minus.corps = scene.getObjectByName("body");
-			plane.visible = false;
-			sphere.visible = true;
-			drawingData.DessinCorpsEnabled=false;
-			drawingData.DessinNageoiresEnabled=true;
-			drawingData.drawing3DPoints=[];
+			dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
 		
 		else if (drawingData.DessinNageoiresEnabled){
-			utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
-			utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
+			dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
       drawingData.enableDrawing = false;
 
