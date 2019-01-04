@@ -6,10 +6,9 @@ function creationSurfaces(verticesArray, material) {
     const l = verticesArray.length;
     if(l<2) return new THREE.Mesh();
     const geometry = new THREE.Geometry();
-    for(let i=0; i<l; i++) {
-	for(let k=0; k<i; k++) {
+    for(let i=0; i<l-1; i++) {
 	    const firstShape = new THREE.CatmullRomCurve3(verticesArray[i]);
-	    const secondShape = new THREE.CatmullRomCurve3(verticesArray[k]);
+	    const secondShape = new THREE.CatmullRomCurve3(verticesArray[i+1]);
 	    const firstLine = firstShape.getSpacedPoints(nbSamples);
 	    const secondLine = secondShape.getSpacedPoints(nbSamples);
 	    for(let j=0; j<firstLine.length-1 && j<secondLine.length-1; j++) {
@@ -24,9 +23,11 @@ function creationSurfaces(verticesArray, material) {
 		const partialGeom = new THREE.ConvexGeometry(array);
 		geometry.merge(partialGeom);
 	    }
-	}
     }
     console.log(geometry);
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
 }
+
+
+// Remarque : toujours dessiner les différents doigts en tournant dans le même sens
