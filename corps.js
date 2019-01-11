@@ -85,9 +85,35 @@ function getBody(sceneGraph,array) {
     pied.position.set(avgRadius*1/3, lastY-30, 0);
     sceneGraph.add(pied);
     //pickingDataPattes.selectableObjects.push(pied);
+
+    const hautpatte2 = new THREE.Mesh(Geometry1,material1);
+    hautpatte2.name="hautpatte2";
+    hautpatte2.receiveShadow = true;
+    hautpatte2.position.set(-avgRadius*1/3, lastY-7.5, 0);
+    sceneGraph.add(hautpatte2);
+
+    const genou2 = new THREE.Mesh(SGeometry,Smaterial);
+    genou2.name="genou2";
+    genou2.receiveShadow = true;
+    genou2.position.set(-avgRadius*1/3, lastY-15, 0);
+    sceneGraph.add(genou2);
+    //pickingDataPattes.selectableObjects.push(genou);
+
+    const baspatte2 = new THREE.Mesh(Geometry2,material2);
+    baspatte2.name="baspatte2";
+    baspatte2.receiveShadow = true;
+    baspatte2.position.set(-avgRadius*1/3, lastY-22.5, 0);
+    sceneGraph.add(baspatte2);
+    
+    const pied2 = new THREE.Mesh(SGeometry2,Smaterial2);
+    pied2.name="pied2";
+    pied2.receiveShadow = true;
+    pied2.position.set(-avgRadius*1/3, lastY-30, 0);
+    sceneGraph.add(pied2);
+    //pickingDataPattes.selectableObjects.push(pied);
 };
 
- 
+
 
 
 
