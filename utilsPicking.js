@@ -9,9 +9,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 	
 	if( pickingData.enableDragAndDropNag===true || pickingData.enableDragAndDropPattes===true ) {
 
-		
-        pickingData.selectedObject.translateX( translation.x );
-        pickingData.sel// Coordonnées de la position de la souris
+		// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -37,7 +35,9 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
         // Translation à appliquer
         const translation = pI.clone().sub( p );
 
-        // Translation de l'objet et de la représentation visuelleectedObject.translateY( translation.y );
+        // Translation de l'objet et de la représentation visuelle
+        pickingData.selectedObject.translateX( translation.x );
+        pickingData.selectedObject.translateY( translation.y );
         pickingData.selectedObject.translateZ( translation.z );
         pickingData.selectedPlane.p.add( translation );
     }
@@ -86,8 +86,10 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
 				pickingData.enableDragAndDropNag = true;
 			}
 			if( pickingData.enabledPattes===true ) {
-				pickingData.enableDragAndDropPattes = true;
+				pickingData.enableDragAndDropNag = true;
 			}
+
+
         }
     }
 }
