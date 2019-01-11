@@ -18,7 +18,7 @@ const mouseEvents = (function() {
 		drawingData.enableDrawing = true;
 	  }
 	  
-		pickNag(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
+		pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
 		
       }
 
@@ -36,8 +36,8 @@ const mouseEvents = (function() {
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
       }
 	  
-	  if( pickingData.enabledNag===true) {
-		  moveSelectionNag(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
+	  if( pickingData.enabledNag===true||pickingData.enabledPattes===true) {
+		  moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
 	  }
 
     },
@@ -53,6 +53,7 @@ const mouseEvents = (function() {
 		}
       drawingData.enableDrawing = false;
 	  pickingData.enableDragAndDropNag = false;
+	  pickingData.enableDragAndDropPattes = false;
 
       if (drawingData.drawing3DPoints.length > 0){
 
@@ -96,6 +97,10 @@ const mouseEvents = (function() {
 		}
 		
 		if (keyCode=="KeyP"){
+			drawingData.DessinNageoiresEnabled=false;
+			pickingData.enabledNag=true;
+			drawingData.drawing3DPoints=[];
+			drawingData.doigtsNageoires=[];
 			initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus);
 		}
 		

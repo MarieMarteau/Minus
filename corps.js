@@ -1,6 +1,6 @@
 "use strict";
 
-function getBody(sceneGraph,array) {
+function getBody(sceneGraph, array) {
     const baseShape = new THREE.CatmullRomCurve3(array);
     const bodyGeometry = new THREE.Geometry();
     const shapePoints = baseShape.getSpacedPoints(128);
@@ -49,11 +49,78 @@ function getBody(sceneGraph,array) {
     const sphere = new THREE.Mesh(sphereGeom, new THREE.MeshLambertMaterial({color:0xff00000}));
     const sphereGeom2 = primitive.Sphere(new THREE.Vector3(-avgRadius*1/3, lastY, 0), 5); //position de la patte 2
     const sphere2 = new THREE.Mesh(sphereGeom2, new THREE.MeshLambertMaterial({color:0xff00000}));
+	sphere.name="patte1";
+	sphere.visible=false;
+	sphere2.name="patte2";
+	sphere2.visible=false;
     sceneGraph.add(sphere);
     sceneGraph.add(sphere2);
+
+    const Geometry1 = new THREE.CylinderGeometry(2,2, 15, 32 );
+    const material1 = new THREE.MeshLambertMaterial({ color: 0xffaa00});
+    const hautpatte = new THREE.Mesh(Geometry1,material1);
+    hautpatte.name="hautpatte";
+    hautpatte.receiveShadow = true;
+    hautpatte.position.set(avgRadius*1/3, lastY-7.5, 0);
+	hautpatte.visible=false;
+    sceneGraph.add(hautpatte);
+
+    const SGeometry = new THREE.SphereGeometry(4,32,32);
+    const Smaterial = new THREE.MeshLambertMaterial({ color: 0xffaa00});
+    const genou = new THREE.Mesh(SGeometry,Smaterial);
+    genou.name="genou";
+    genou.receiveShadow = true;
+    genou.position.set(avgRadius*1/3, lastY-15, 0);
+	genou.visible=false;
+    sceneGraph.add(genou);
+    //pickingDataPattes.selectableObjects.push(genou);
+
+    const Geometry2 = new THREE.CylinderGeometry(2,2, 15, 32 );
+    const material2 = new THREE.MeshLambertMaterial({ color: 0xffaa00});
+    const baspatte = new THREE.Mesh(Geometry2,material2);
+    baspatte.name="baspatte";
+    baspatte.receiveShadow = true;
+	baspatte.visible=false;
+    baspatte.position.set(avgRadius*1/3, lastY-22.5, 0);
+    sceneGraph.add(baspatte);
+    
+    const SGeometry2 = new THREE.SphereGeometry(4,32,32);
+    const Smaterial2 = new THREE.MeshLambertMaterial({ color: 0xffaa00});
+    const pied = new THREE.Mesh(SGeometry2,Smaterial2);
+    pied.name="pied";
+	pied.visible=false;
+    pied.receiveShadow = true;
+    pied.position.set(avgRadius*1/3, lastY-30, 0);
+    sceneGraph.add(pied);
+    //pickingDataPattes.selectableObjects.push(pied);
+
+    const hautpatte2 = new THREE.Mesh(Geometry1,material1);
+    hautpatte2.name="hautpatte2";
+    hautpatte2.receiveShadow = true;
+    hautpatte2.position.set(-avgRadius*1/3, lastY-7.5, 0);
+	hautpatte2.visible=false;
+    sceneGraph.add(hautpatte2);
+
+    const genou2 = new THREE.Mesh(SGeometry,Smaterial);
+    genou2.name="genou2";
+    genou2.receiveShadow = true;
+    genou2.position.set(-avgRadius*1/3, lastY-15, 0);
+    sceneGraph.add(genou2);
+	genou2.visible=false;
+    //pickingDataPattes.selectableObjects.push(genou);
+
+    const baspatte2 = new THREE.Mesh(Geometry2,material2);
+    baspatte2.name="baspatte2";
+    baspatte2.receiveShadow = true;
+    baspatte2.position.set(-avgRadius*1/3, lastY-22.5, 0);
+	baspatte2.visible=false;
+    sceneGraph.add(baspatte2);
+    
+    const pied2 = new THREE.Mesh(SGeometry2,Smaterial2);
+    pied2.name="pied2";
+    pied2.receiveShadow = true;
+    pied2.position.set(-avgRadius*1/3, lastY-30, 0);
+	pied2.visible=false;
+    sceneGraph.add(pied2);
+    //pickingDataPattes.selectableObjects.push(pied);
 };
-
- 
-
-
-

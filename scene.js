@@ -29,10 +29,15 @@ function main(){
   const pickingData = {
     enabledNag: false,
 	enableDragAndDropNag : false,
-	selectionPositionNag:null,
-    selectableObjectsNag: [],    // Les objets selectionnables par picking
-    selectedObjectNag: null,     // L'objet actuellement selectionné
-	selectedPlaneNag: {p:null,n:null},
+	enabledPattes: false,
+	enableDragAndDropPattes : false,
+	
+	selectionPosition:null,
+	selectableObjectsNag: [],
+	selectableObjectsPattes: [],
+    selectableObjects: [],    // Les objets selectionnables par picking
+    selectedObject: null,     // L'objet actuellement selectionné
+	selectedPlane: {p:null,n:null},
 }
   
   

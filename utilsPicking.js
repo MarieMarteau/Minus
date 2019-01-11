@@ -1,8 +1,17 @@
-function moveSelectionNag(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
+function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
 	
-	if( pickingData.enableDragAndDropNag===true) {
+	if( pickingData.enableDragAndDropNag===true ) {
+		pickingData.selectableObjects = pickingData.selectableObjectsNag;
+	}
+	if( pickingData.enableDragAndDropPattes===true ) {
+		pickingData.selectableObjects = pickingData.selectableObjectsPattes;
+	}
+	
+	if( pickingData.enableDragAndDropNag===true || pickingData.enableDragAndDropPattes===true ) {
 
-		// Coordonnées de la position de la souris
+		
+        pickingData.selectedObject.translateX( translation.x );
+        pickingData.sel// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -18,8 +27,8 @@ function moveSelectionNag(event, scene, camera, raycaster, screenSize, drawingDa
         const d = selectedPoint.clone().sub( p0 );
 
         // Intersection entre le rayon 3D et le plan de la camera
-        const p = pickingData.selectedPlaneNag.p;
-        const n = pickingData.selectedPlaneNag.n;
+        const p = pickingData.selectedPlane.p;
+        const n = pickingData.selectedPlane.n;
         // tI = <p-p0,n> / <d,n>
         const tI = ( (p.clone().sub(p0)).dot(n) ) / ( d.dot(n) );
         // pI = p0 + tI d
@@ -28,20 +37,24 @@ function moveSelectionNag(event, scene, camera, raycaster, screenSize, drawingDa
         // Translation à appliquer
         const translation = pI.clone().sub( p );
 
-        // Translation de l'objet et de la représentation visuelle
-        pickingData.selectedObjectNag.translateX( translation.x );
-        pickingData.selectedObjectNag.translateY( translation.y );
-        pickingData.selectedObjectNag.translateZ( translation.z );
-        pickingData.selectedPlaneNag.p.add( translation );
+        // Translation de l'objet et de la représentation visuelleectedObject.translateY( translation.y );
+        pickingData.selectedObject.translateZ( translation.z );
+        pickingData.selectedPlane.p.add( translation );
     }
 
 
 }
 
-function pickNag(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
+function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
 	
 	if( pickingData.enabledNag===true ) {
-		console.log("je pick");
+		pickingData.selectableObjects = pickingData.selectableObjectsNag;
+	}
+	if( pickingData.enabledPattes===true ) {
+		pickingData.selectableObjects = pickingData.selectableObjectsPattes;
+	}
+	
+	if( pickingData.enabledNag===true || pickingData.enabledPattes===true ) {
 
         // Coordonnées du clic de souris
         const xPixel = event.clientX;
@@ -55,7 +68,7 @@ function pickNag(event, scene, camera, raycaster, screenSize, drawingData, picki
         raycaster.setFromCamera(new THREE.Vector2(x,y),camera);
 
         // Calcul des interections entre le rayon et les objets passés en paramètres
-        const intersects = raycaster.intersectObjects(pickingData.selectableObjectsNag );
+        const intersects = raycaster.intersectObjects(pickingData.selectableObjects );
 
         const nbrIntersection = intersects.length;
         if( nbrIntersection>0 ) {
@@ -64,13 +77,17 @@ function pickNag(event, scene, camera, raycaster, screenSize, drawingData, picki
             const intersection = intersects[0];
 
             // Sauvegarde des données du picking
-            pickingData.selectedObjectNag = intersection.object; // objet selectionné
-            pickingData.selectedPlaneNag.p = intersection.point.clone(); // coordonnées du point d'intersection 3D
-            pickingData.selectedPlaneNag.n = camera.getWorldDirection().clone(); // normale du plan de la caméra
+            pickingData.selectedObject = intersection.object; // objet selectionné
+            pickingData.selectedPlane.p = intersection.point.clone(); // coordonnées du point d'intersection 3D
+            pickingData.selectedPlane.n = camera.getWorldDirection().clone(); // normale du plan de la caméra
 
             // Affichage de la selection
-            pickingData.enableDragAndDropNag = true;
-
+			if( pickingData.enabledNag===true ) {
+				pickingData.enableDragAndDropNag = true;
+			}
+			if( pickingData.enabledPattes===true ) {
+				pickingData.enableDragAndDropPattes = true;
+			}
         }
     }
 }
