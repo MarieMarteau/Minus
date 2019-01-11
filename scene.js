@@ -26,13 +26,23 @@ function main(){
 	doigtsNageoires:[],
   };
   
+  const pickingData = {
+    enabledNag: false,
+	enableDragAndDropNag : false,
+	selectionPositionNag:null,
+    selectableObjectsNag: [],    // Les objets selectionnables par picking
+    selectedObjectNag: null,     // L'objet actuellement selectionné
+	selectedPlaneNag: {p:null,n:null},
+}
+  
+  
   const Minus = {
         corps:null,
-		nageoires:null,
+		nageoires:[],
     };
   
   initEmptyScene(sceneThreeJs);
-  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData);  
+  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData, pickingData);  
 
   const screenSize = {
     w:sceneThreeJs.renderer.domElement.clientWidth,
@@ -42,19 +52,19 @@ function main(){
   const raycaster = new THREE.Raycaster();
 
   ///////////// Mouse Events ////////////////////////////////////////////////////////////
-  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'mousedown', wrapperMouseDown );
  
-  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus) };
+  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus) };
   document.addEventListener( 'mousemove', wrapperMouseMove );
 
-  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'mouseup', wrapperMouseUp );
   
-  const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'keyup', wrapperKeyUp );
   
-  const wrapperKeyDown = function(event) { mouseEvents.onKeyDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperKeyDown = function(event) { mouseEvents.onKeyDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'keydown', wrapperKeyDown );
 
   
@@ -63,7 +73,7 @@ function main(){
 }
 
 
-function init3DObjects(camera,sceneGraph, drawingData) {
+function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
 
   const planeGeometry = primitive.Quadrangle(new THREE.Vector3(-100,-50,0),new THREE.Vector3(-100,50,0),new THREE.Vector3(100,50,0),new THREE.Vector3(100,-50,0));
   const materialGround = new THREE.MeshLambertMaterial({ color: 0xC0C0C0, side: THREE.DoubleSide });
@@ -80,17 +90,31 @@ function init3DObjects(camera,sceneGraph, drawingData) {
   const line = new THREE.Line( lineGeometry, materialLine );
   line.name="line";
   sceneGraph.add(line);
+
   
+  //Outils pour placer les nageoires
+  const ToolG1 = new THREE.SphereGeometry(10,32,32);
+  const ToolM1 = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const Tool1 = new THREE.Mesh(ToolG1,ToolM1);
+  Tool1.name="Tool1";
+  Tool1.receiveShadow = true;
+  drawingData.drawingObjects.push(Tool1);
+  pickingData.selectableObjectsNag.push(Tool1);
+  Tool1.visible = false;
+  Tool1.position.set(-70,30,0);
+  sceneGraph.add(Tool1);
   
-  const SGeometry = new THREE.SphereGeometry(45,32,32);
-  const materialS = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
-  const sphere = new THREE.Mesh(SGeometry,materialS);
-  sphere.name="sphere";
-  sphere.receiveShadow = true;
-  drawingData.drawingObjects.push(sphere);
-  sphere.visible = false;
-  sphere.position.set(15,0,0);
-  sceneGraph.add(sphere);
+  const ToolG2 = new THREE.SphereGeometry(20,32,32);
+  const ToolM2 = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const Tool2 = new THREE.Mesh(ToolG2,ToolM2);
+  Tool2.name="Tool2";
+  Tool2.receiveShadow = true;
+  drawingData.drawingObjects.push(Tool2);
+  pickingData.selectableObjectsNag.push(Tool2);
+  Tool2.visible = false;
+  Tool2.position.set(-70,0,0);
+  sceneGraph.add(Tool2);
+  
 
 }
 
@@ -111,6 +135,9 @@ function initEmptyScene(sceneThreeJs, affichageElement) {
   sceneInit.insertRenderInHtml(sceneThreeJs.renderer.domElement);
 
   sceneThreeJs.controls = new THREE.OrbitControls( sceneThreeJs.camera,sceneThreeJs.renderer.domElement );
+  sceneThreeJs.controls.addEventListener( 'change', function(event){light_update(sceneThreeJs.camera,spotLight1);},true);
+  sceneThreeJs.controls.addEventListener( 'change', function(event){light_update2(sceneThreeJs.camera,spotLight2);},true);
+
   window.addEventListener('resize', function(event){onResize(sceneThreeJs);}, true);
 }
 
