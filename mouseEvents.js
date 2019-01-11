@@ -4,7 +4,7 @@ const mouseEvents = (function() {
 
   return {
 
-    onMouseDown: function(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus) {
+    onMouseDown: function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
 
       if( event.button == 0 ) { // activation si la click gauche est enfoncée
         // Coordonnées du clic de souris
@@ -17,15 +17,11 @@ const mouseEvents = (function() {
 
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
         drawingData.enableDrawing = true;
-		
-		if( pickingData.enableNag===true) {
-		pickNag(x,y, scene, camera, raycaster, drawingData, pickingData,Minus);
-		}
       }
 
     },
 
-    onMouseMove: function( event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus){
+    onMouseMove: function( event, scene, camera, raycaster, screenSize, drawingData,Minus){
       // Coordonnées de la position de la souris
       const xPixel = event.clientX;
       const yPixel = event.clientY;
@@ -36,24 +32,19 @@ const mouseEvents = (function() {
       if (drawingData.enableDrawing == true){
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
       }
-	  
-	  if( pickingData.enableNag===true) {
-		  moveSelectionNag(x,y, scene, camera, raycaster, drawingData, pickingData,Minus);
-	  }
 
     },
 
-    onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus) {
+    onMouseUp: function(event, scene, camera, raycaster, screenSize, drawingData,Minus) {
 		
 		if (drawingData.DessinCorpsEnabled){
-			dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus)
+			dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
 		
 		else if (drawingData.DessinNageoiresEnabled){
 			dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
       drawingData.enableDrawing = false;
-	  pickingData.enableDragAndDropNag = false;
 
       if (drawingData.drawing3DPoints.length > 0){
 

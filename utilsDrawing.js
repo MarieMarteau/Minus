@@ -48,16 +48,11 @@ const utilsDrawing = (function() {
 	find3DPoint: function(raycaster, camera, xPosition ,yPosition,drawingData, scene, down){
       raycaster.setFromCamera(new THREE.Vector2(xPosition,yPosition),camera);
 
-	  const FinNag = scene.getObjectByName("FinNag");
-	  
       const intersects = raycaster.intersectObjects( drawingData.drawingObjects );
       const nbrIntersection = intersects.length;
       if( nbrIntersection>0 ) {
 
         let intersection = intersects[0];
-		if (intersection.object == FinNag){
-			console.log("Coucou");
-		}
         // Sauvegarde des données du drawing
         if (down){
           drawingData.selectedObject = intersection.object; // objet selectionné
@@ -165,11 +160,16 @@ const utilsDrawing = (function() {
 	extrudePath: Spline
 };
 
-    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
-    const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
-    extrudeObject.material.side = THREE.DoubleSide; 
-    scene.add( extrudeObject );
- 
+	    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+	    const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
+	    extrudeObject.material.side = THREE.DoubleSide;
+	    const obj2 = extrudeObject.clone();
+	    const mat = (new THREE.Matrix4()).identity();
+	    mat.elements[0] = -1;
+	    obj2.applyMatrix(mat);
+	    scene.add( extrudeObject );
+	    scene.add(obj2);
+	    
 	},
 	
 	
@@ -179,7 +179,13 @@ const utilsDrawing = (function() {
 	
 	
 	creationAile: function(raycaster, camera, drawingData, scene, down){
-		scene.add(creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00})));
+	    const mesh = creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00}));
+	    const mesh2 = mesh.clone();
+	    const mat = (new THREE.Matrix4()).identity();
+	    mat.elements[0] = -1;
+	    mesh2.applyMatrix(mat);
+	    scene.add(mesh);
+	    scene.add(mesh2);
 	},
 
 

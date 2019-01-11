@@ -1,4 +1,4 @@
-function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus){
+function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,Minus){
 	const plane = scene.getObjectByName("plane");
 	const sphere = scene.getObjectByName("sphere");
 	const line = scene.getObjectByName("line");
@@ -8,8 +8,7 @@ function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pi
 	sphere.visible = true;
 	line.visible=false;
 	drawingData.DessinCorpsEnabled=false;
-	//drawingData.DessinNageoiresEnabled=true;
-	pickingData.enableNag=true;
+	drawingData.DessinNageoiresEnabled=true;
 	drawingData.drawing3DPoints=[];
 }
 
