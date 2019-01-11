@@ -26,13 +26,22 @@ function main(){
 	doigtsNageoires:[],
   };
   
+  const pickingData = {
+    enabledNag: true,
+	enableDragAndDropNag : false,
+	selectionPositionNag:null,
+    selectableObjectsNag: [],    // Les objets selectionnables par picking
+    selectedObjectNag: null,     // L'objet actuellement selectionné
+}
+  
+  
   const Minus = {
         corps:null,
 		nageoires:null,
     };
   
   initEmptyScene(sceneThreeJs);
-  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData);  
+  init3DObjects(sceneThreeJs.camera,sceneThreeJs.sceneGraph, drawingData, pickingData);  
 
   const screenSize = {
     w:sceneThreeJs.renderer.domElement.clientWidth,
@@ -42,13 +51,13 @@ function main(){
   const raycaster = new THREE.Raycaster();
 
   ///////////// Mouse Events ////////////////////////////////////////////////////////////
-  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperMouseDown = function(event) { mouseEvents.onMouseDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'mousedown', wrapperMouseDown );
  
-  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus) };
+  const wrapperMouseMove = function(event) { mouseEvents.onMouseMove(event, sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus) };
   document.addEventListener( 'mousemove', wrapperMouseMove );
 
-  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
+  const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
   document.addEventListener( 'mouseup', wrapperMouseUp );
   
   const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,Minus); };
@@ -63,7 +72,7 @@ function main(){
 }
 
 
-function init3DObjects(camera,sceneGraph, drawingData) {
+function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
 
   const planeGeometry = primitive.Quadrangle(new THREE.Vector3(-100,-50,0),new THREE.Vector3(-100,50,0),new THREE.Vector3(100,50,0),new THREE.Vector3(100,-50,0));
   const materialGround = new THREE.MeshLambertMaterial({ color: 0xC0C0C0, side: THREE.DoubleSide });
@@ -88,9 +97,11 @@ function init3DObjects(camera,sceneGraph, drawingData) {
   sphere.name="sphere";
   sphere.receiveShadow = true;
   drawingData.drawingObjects.push(sphere);
+  pickingData.selectableObjectsNag.push(sphere);
   sphere.visible = false;
   sphere.position.set(15,0,0);
   sceneGraph.add(sphere);
+  
 
 }
 

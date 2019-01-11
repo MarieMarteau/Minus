@@ -6,7 +6,7 @@ function getBody(sceneGraph,array) {
 //					   new THREE.Vector2(0,2),
 //					   new THREE.Vector2(-0.5,2.5),
 //					   new THREE.Vector2(0,3)]);
-    const baseShape = new THREE.Shape();
+    //const baseShape = new THREE.Shape();
 //    baseShape.lineTo(-1,1);
 //    baseShape.lineTo(0,2);
 //    baseShape.lineTo(2.5,2.5);
@@ -18,7 +18,7 @@ function getBody(sceneGraph,array) {
 		   new THREE.Vector2(-.75,2),
 		   new THREE.Vector2(0,2.5),
 		   new THREE.Vector2(0.75,2)];*/
-    baseShape.splineThru(array);
+    const baseShape = new THREE.CatmullRomCurve3(array);
     //baseShape.lineTo(0,0);
     const circleCurve = new THREE.EllipseCurve(0,0,0.5,0.5);
     //const circlePath = new THREE.Path(circleCurve.getPoints(100));
@@ -27,9 +27,42 @@ function getBody(sceneGraph,array) {
     let bodyPointsBuffer1 = []
     let bodyPointsBuffer2 = []
     let bodyGeometry = new THREE.Geometry();
-    const shapePoints = baseShape.getPoints();
+    let shapePoints = baseShape.getSpacedPoints(128);
+    let validPoints = []
+    let previousY = shapePoints[0].y;
+    let isGoingBackUp = false;
+    let previousLowI;
+    let previousLowPoint;
+    let highPoint;
+    for(let i=0; i<shapePoints.length; i++) {
+	if(isGoingBackUp) {
+	    if(shapePoints[i].y > highPoint) {
+		highPoint = shapePoints[i].y;
+	    }
+	    if(shapePoints[i].y < previousLowPoint) {
+		let j = previousLowI;
+		while(shapePoints[j] <= highPoint) {
+		    validPoints.pop();
+		    j--;
+		}
+		isGoingBackUp = false;
+	    }
+	}
+	else {
+	    if(shapePoints[i].y > previousY) {
+		isGoingBackUp = true;
+		previousLowI = i;
+		previousLowPoint = previousY;
+		highPoint = shapePoints[i].y;
+	    }
+	    previousY = shapePoints[i].y;
+	    validPoints.push(shapePoints[i]);
+	}
+    }
+    const newShape = new THREE.CatmullRomCurve3(validPoints);
+    shapePoints = newShape.getSpacedPoints(128);
 //ATTENTION : il faudra s'assurer que shapePoints est trie par coord. "y" croissante pour ne pas planter les calculs d'enveloppe convexe (ici garanti par la definition de array)
-    const maxI = 50
+    const maxI = 256
     const circleRadius = 1
     for(let j=0; j<shapePoints.length; j++) {
 	if(shapePoints[j].x == 0) {
@@ -54,13 +87,12 @@ function getBody(sceneGraph,array) {
     bodyGeometry.computeFaceNormals();
     bodyGeometry.computeFlatVertexNormals();
     bodyGeometry.computeMorphNormals();
-    bodyGeometry.computeVertexNormals();
     console.log(bodyGeometry);
     const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
-	bodyMesh.name="body";
-	bodyMesh.castShadow=true;
+    bodyMesh.name = "body";
+    bodyMesh.castShadow = true;
     sceneGraph.add(bodyMesh);
-}; 
+};
 
 
 
