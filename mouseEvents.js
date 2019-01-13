@@ -104,10 +104,8 @@ const mouseEvents = (function() {
 			initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus);
 		}
 		
-		if (pickingData.enabledNag){
-			const name = pickingData.selectedObjectNag.name;
-			resize(keyCode,name, scene)
-		}
+		const object = pickingData.selectedObject;
+		resize(keyCode,object, scene);
 	},
 
   };
