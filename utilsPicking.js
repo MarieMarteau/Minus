@@ -87,6 +87,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 		const pied2 = scene.getObjectByName("pied2");
 		const patte2 = scene.getObjectByName("patte2");
 		patteBetween(genou2.position,pied2.position,baspatte2);
+		console.log(baspatte2);
 		patteBetween(patte2.position,genou2.position,hautpatte2);
 		
 	}
@@ -203,7 +204,12 @@ function resize(keyCode,object, scene){
 
 function patteBetween(p1,p2,patte){
 	patte.position.set((p1.x+p2.x)/2,(p1.y+p2.y)/2,(p1.z+p2.z)/2);
-	const angle = Math.atan(-(p1.x-p2.x)/(p1.y-p2.y));
-	patte.rotation.z = angle;
-	patte.scale.y = Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y)+(p1.z-p2.z)*(p1.z-p2.z));
+	const anglez = Math.atan(-(p1.x-p2.x)/(p1.y-p2.y));
+	const anglex = Math.atan(-(p1.z-p2.z)/(p1.y-p2.y));
+	const angley = Math.atan(-(p1.x-p2.x)/(p1.z-p2.z));
+	patte.rotation.z = anglez;
+	patte.rotation.x = anglex;
+	patte.rotation.y = angley;
+	//patte.scale.y = Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y)+(p1.z-p2.z)*(p1.z-p2.z))/15;
+	//patte.scale.y = 2;
 }

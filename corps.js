@@ -50,9 +50,9 @@ function getBody(sceneGraph, array) {
     const sphereGeom2 = primitive.Sphere(new THREE.Vector3(-avgRadius*1/3, lastY, 0), 5); //position de la patte 2
     const sphere2 = new THREE.Mesh(sphereGeom2, new THREE.MeshLambertMaterial({color:0x0000000}));
 	sphere.name="patte1";
-	sphere.visible=false;
+	//sphere.visible=false;
 	sphere2.name="patte2";
-	sphere2.visible=false;
+	//sphere2.visible=false;
     sceneGraph.add(sphere);
     sceneGraph.add(sphere2);
 
@@ -62,14 +62,14 @@ function getBody(sceneGraph, array) {
     hautpatte.name="hautpatte";
     hautpatte.receiveShadow = true;
     hautpatte.position.set(avgRadius*1/3, lastY-7.5, 0);
-	hautpatte.visible=false;
+	//hautpatte.visible=false;
     sceneGraph.add(hautpatte);
 
     const genou = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
     genou.name="genou";
     genou.receiveShadow = true;
     genou.position.set(avgRadius*1/3, lastY-15, 0);
-	genou.visible=false;
+	//genou.visible=false;
     sceneGraph.add(genou);
     //pickingDataPattes.selectableObjects.push(genou);
 
@@ -78,13 +78,13 @@ function getBody(sceneGraph, array) {
     const baspatte = new THREE.Mesh(Geometry2,material2);
     baspatte.name="baspatte";
     baspatte.receiveShadow = true;
-	baspatte.visible=false;
+	//baspatte.visible=false;
     baspatte.position.set(avgRadius*1/3, lastY-22.5, 0);
     sceneGraph.add(baspatte);
     
     const pied = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
     pied.name="pied";
-	pied.visible=false;
+	//pied.visible=false;
     pied.receiveShadow = true;
     pied.position.set(avgRadius*1/3, lastY-30, 0);
     sceneGraph.add(pied);
@@ -94,7 +94,7 @@ function getBody(sceneGraph, array) {
     hautpatte2.name="hautpatte2";
     hautpatte2.receiveShadow = true;
     hautpatte2.position.set(-avgRadius*1/3, lastY-7.5, 0);
-	hautpatte2.visible=false;
+	//hautpatte2.visible=false;
     sceneGraph.add(hautpatte2);
 
     const genou2 = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
@@ -102,21 +102,21 @@ function getBody(sceneGraph, array) {
     genou2.receiveShadow = true;
     genou2.position.set(-avgRadius*1/3, lastY-15, 0);
     sceneGraph.add(genou2);
-	genou2.visible=false;
+	//genou2.visible=false;
     //pickingDataPattes.selectableObjects.push(genou);
 
     const baspatte2 = new THREE.Mesh(Geometry2,material2);
     baspatte2.name="baspatte2";
     baspatte2.receiveShadow = true;
     baspatte2.position.set(-avgRadius*1/3, lastY-22.5, 0);
-	baspatte2.visible=false;
+	//baspatte2.visible=false;
     sceneGraph.add(baspatte2);
     
     const pied2 = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
     pied2.name="pied2";
     pied2.receiveShadow = true;
     pied2.position.set(-avgRadius*1/3, lastY-30, 0);
-	pied2.visible=false;
+	//pied2.visible=false;
     sceneGraph.add(pied2);
     //pickingDataPattes.selectableObjects.push(pied);
 };

@@ -40,7 +40,7 @@ function initPattes(event, scene, camera, raycaster, screenSize, drawingData,pic
 	pickingData.selectableObjectsPattes.push(pied);
 	pickingData.selectableObjectsPattes.push(pied2);
 	
-	patte1.visible = true;
+	/*patte1.visible = true;
 	patte2.visible = true;
 	pied.visible = true;
 	pied2.visible = true;
@@ -49,7 +49,7 @@ function initPattes(event, scene, camera, raycaster, screenSize, drawingData,pic
 	hautpatte.visible = true;
 	hautpatte2.visible = true;
 	genou.visible = true;
-	genou2.visible = true;
+	genou2.visible = true;*/
 	Tool1.visible=false;
 	Tool2.visible=false;
 	
