@@ -1,9 +1,9 @@
 function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
+    
+    if( pickingData.enableDragAndDropNag===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsNag;
 	
-	if( pickingData.enableDragAndDropNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsNag;
-		
-		// Coordonnées de la position de la souris
+	// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -34,12 +34,12 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
         pickingData.selectedObject.translateY( translation.y );
         pickingData.selectedObject.translateZ( translation.z );
         pickingData.selectedPlane.p.add( translation );
-		
-	}
-	if( pickingData.enableDragAndDropPattes===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsPattes;
-		
-		// Coordonnées de la position de la souris
+	
+    }
+    if( pickingData.enableDragAndDropPattes===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsPattes;
+	
+	// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -70,36 +70,41 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
         pickingData.selectedObject.translateY( translation.y );
         pickingData.selectedObject.translateZ( translation.z );
         pickingData.selectedPlane.p.add( translation );
-		
-		
-		let baspatte = scene.getObjectByName("baspatte");
-		let hautpatte = scene.getObjectByName("hautpatte");
-		const genou = scene.getObjectByName("genou");
-		const pied = scene.getObjectByName("pied");
-		const patte1 = scene.getObjectByName("patte1");
-		console.log(hautpatte);
-		baspatte= patteBetween(genou.position,pied.position,baspatte);
-		hautpatte= patteBetween(patte1.position,genou.position,hautpatte);
-		
-		const baspatte2 = scene.getObjectByName("baspatte2");
-		const hautpatte2 = scene.getObjectByName("hautpatte2");
-		const genou2 = scene.getObjectByName("genou2");
-		const pied2 = scene.getObjectByName("pied2");
-		const patte2 = scene.getObjectByName("patte2");
-		patteBetween(genou2.position,pied2.position,baspatte2);
-		console.log(baspatte2);
-		patteBetween(patte2.position,genou2.position,hautpatte2);
-		
-	}
+	
+	
+	let baspatte = scene.getObjectByName("baspatte");
+	let hautpatte = scene.getObjectByName("hautpatte");
+	const genou = scene.getObjectByName("genou");
+	const pied = scene.getObjectByName("pied");
+	const patte1 = scene.getObjectByName("patte1");
+	genou.add(patteBetween(pied.position,baspatte));
+	patte1.add(patteBetween(genou.position,hautpatte));
+	genou.remove(baspatte);
+	baspatte.name = "";
+	patte1.remove(hautpatte);
+	hautpatte.name = ""
+	
+	const baspatte2 = scene.getObjectByName("baspatte2");
+	const hautpatte2 = scene.getObjectByName("hautpatte2");
+	const genou2 = scene.getObjectByName("genou2");
+	const pied2 = scene.getObjectByName("pied2");
+	const patte2 = scene.getObjectByName("patte2");
+	genou2.add(patteBetween(pied2.position,baspatte2));
+	patte2.add(patteBetween(genou2.position,hautpatte2));
+	genou2.remove(baspatte2);
+	baspatte2.name = "";
+	patte2.remove(hautpatte2);
+	hautpatte2.name = ""
+    }
 
 }
 
 function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
+    
+    if( pickingData.enabledNag===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsNag;
 	
-	if( pickingData.enabledNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsNag;
-		
-		// Coordonnées du clic de souris
+	// Coordonnées du clic de souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -116,32 +121,32 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
         const nbrIntersection = intersects.length;
         if( nbrIntersection>0 ) {
 
-            // Les intersections sont classés par distance le long du rayon. On ne considère que la première.
-            const intersection = intersects[0];
+	    // Les intersections sont classés par distance le long du rayon. On ne considère que la première.
+	    const intersection = intersects[0];
 
-            // Sauvegarde des données du picking
-            pickingData.selectedObject = intersection.object; // objet selectionné
-            pickingData.selectedPlane.p = intersection.point.clone(); // coordonnées du point d'intersection 3D
-            pickingData.selectedPlane.n = camera.getWorldDirection().clone(); // normale du plan de la caméra
+	    // Sauvegarde des données du picking
+	    pickingData.selectedObject = intersection.object; // objet selectionné
+	    pickingData.selectedPlane.p = intersection.point.clone(); // coordonnées du point d'intersection 3D
+	    pickingData.selectedPlane.n = camera.getWorldDirection().clone(); // normale du plan de la caméra
 
-            // Affichage de la selection
-			pickingData.enableDragAndDropNag = true;
-			
-			pickingData.selectedObject.material.color.set(0xff0000);
-			for (let k = 0; k < pickingData.selectableObjects.length; k++){
-				if (pickingData.selectableObjects[k] != pickingData.selectedObject){
-				pickingData.selectableObjects[k].material.color.set(0xffaa00);
-				}
-			}
+	    // Affichage de la selection
+	    pickingData.enableDragAndDropNag = true;
+	    
+	    pickingData.selectedObject.material.color.set(0xff0000);
+	    for (let k = 0; k < pickingData.selectableObjects.length; k++){
+		if (pickingData.selectableObjects[k] != pickingData.selectedObject){
+		    pickingData.selectableObjects[k].material.color.set(0xffaa00);
+		}
+	    }
         }
-		
-	}
 	
+    }
+    
+    
+    if( pickingData.enabledPattes===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsPattes;
 	
-	if( pickingData.enabledPattes===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsPattes;
-		
-		// Coordonnées du clic de souris
+	// Coordonnées du clic de souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -167,49 +172,43 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
             pickingData.selectedPlane.n = camera.getWorldDirection().clone(); // normale du plan de la caméra
 
             
-			pickingData.enableDragAndDropPattes = true;
-			
-			pickingData.selectedObject.material.color.set(0xff0000);
-			for (let k = 0; k < pickingData.selectableObjects.length; k++){
-				if (pickingData.selectableObjects[k] != pickingData.selectedObject){
-				pickingData.selectableObjects[k].material.color.set(0x000000);
-				}
-			}
+	    pickingData.enableDragAndDropPattes = true;
+	    
+	    pickingData.selectedObject.material.color.set(0xff0000);
+	    for (let k = 0; k < pickingData.selectableObjects.length; k++){
+		if (pickingData.selectableObjects[k] != pickingData.selectedObject){
+		    pickingData.selectableObjects[k].material.color.set(0x000000);
+		}
+	    }
 
 
         }
 	
-	}
+    }
 
 
-        }
+}
 
 
 
 function resize(keyCode,object, scene){
-	if (keyCode=="NumpadAdd"){
-		const resize = 0.1;
-		object.scale.x += resize;
-		object.scale.y += resize;
-		object.scale.z += resize;
-	}
-	else if (keyCode=="NumpadSubtract"){
-		const resize = - 0.1;
-		object.scale.x += resize;
-		object.scale.y += resize;
-		object.scale.z += resize;
-	}
-	
+    if (keyCode=="NumpadAdd"){
+	const resize = 0.1;
+	object.scale.x += resize;
+	object.scale.y += resize;
+	object.scale.z += resize;
+    }
+    else if (keyCode=="NumpadSubtract"){
+	const resize = - 0.1;
+	object.scale.x += resize;
+	object.scale.y += resize;
+	object.scale.z += resize;
+    }
+    
 }
 
-function patteBetween(p1,p2,patte){
-	patte.position.set((p1.x+p2.x)/2,(p1.y+p2.y)/2,(p1.z+p2.z)/2);
-	const anglez = Math.atan(-(p1.x-p2.x)/(p1.y-p2.y));
-	const anglex = Math.atan(-(p1.z-p2.z)/(p1.y-p2.y));
-	const angley = Math.atan(-(p1.x-p2.x)/(p1.z-p2.z));
-	patte.rotation.z = anglez;
-	patte.rotation.x = anglex;
-	patte.rotation.y = angley;
-	//patte.scale.y = Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y)+(p1.z-p2.z)*(p1.z-p2.z))/15;
-	//patte.scale.y = 2;
+function patteBetween(p,patte){
+    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, 0.5),new THREE.MeshLambertMaterial({color: 0x000000}));
+    nouvellePatte.name = patte.name;
+    return nouvellePatte;
 }
