@@ -24,9 +24,12 @@ function creationSurfaces(verticesArray, material) {
 		geometry.merge(partialGeom);
 	    }
     }
+    geometry.computeFaceNormals();
+    geometry.computeFlatVertexNormals();
+    geometry.computeMorphNormals();
     console.log(geometry);
     const mesh = new THREE.Mesh(geometry, material);
-    return mesh;
+    mesh.castShadow = true;
 }
 
 

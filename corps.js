@@ -1,98 +1,124 @@
 "use strict";
 
-function getBody(sceneGraph,array) {
-    //const baseShape = new THREE.SplineCurve([new THREE.Vector2(0,0),
-//					   new THREE.Vector2(-1,1),
-//					   new THREE.Vector2(0,2),
-//					   new THREE.Vector2(-0.5,2.5),
-//					   new THREE.Vector2(0,3)]);
-    //const baseShape = new THREE.Shape();
-//    baseShape.lineTo(-1,1);
-//    baseShape.lineTo(0,2);
-//    baseShape.lineTo(2.5,2.5);
-//    baseShape.lineTo(0,3);
-    /*const array = [new THREE.Vector2(1.75,0.5),
-		   new THREE.Vector2(0,0),
-		   new THREE.Vector2(-1.75,0.5),
-		   new THREE.Vector2(-2,1),
-		   new THREE.Vector2(-.75,2),
-		   new THREE.Vector2(0,2.5),
-		   new THREE.Vector2(0.75,2)];*/
+
+function getBody(sceneGraph, array) {
     const baseShape = new THREE.CatmullRomCurve3(array);
-    //baseShape.lineTo(0,0);
-    const circleCurve = new THREE.EllipseCurve(0,0,0.5,0.5);
-    //const circlePath = new THREE.Path(circleCurve.getPoints(100));
-    //const circlePath = new THREE.Path();
-    //circlePath.absellipse(0,0,0.5,0.5,0,2*Math.PI,false,Math.PI/2);
-    let bodyPointsBuffer1 = []
-    let bodyPointsBuffer2 = []
-    let bodyGeometry = new THREE.Geometry();
-    let shapePoints = baseShape.getSpacedPoints(128);
-    let validPoints = []
-    let previousY = shapePoints[0].y;
-    let isGoingBackUp = false;
-    let previousLowI;
-    let previousLowPoint;
-    let highPoint;
-    for(let i=0; i<shapePoints.length; i++) {
-	if(isGoingBackUp) {
-	    if(shapePoints[i].y > highPoint) {
-		highPoint = shapePoints[i].y;
-	    }
-	    if(shapePoints[i].y < previousLowPoint) {
-		let j = previousLowI;
-		while(shapePoints[j] <= highPoint) {
-		    validPoints.pop();
-		    j--;
-		}
-		isGoingBackUp = false;
-	    }
-	}
-	else {
-	    if(shapePoints[i].y > previousY) {
-		isGoingBackUp = true;
-		previousLowI = i;
-		previousLowPoint = previousY;
-		highPoint = shapePoints[i].y;
-	    }
-	    previousY = shapePoints[i].y;
-	    validPoints.push(shapePoints[i]);
-	}
-    }
-    const newShape = new THREE.CatmullRomCurve3(validPoints);
-    shapePoints = newShape.getSpacedPoints(128);
-//ATTENTION : il faudra s'assurer que shapePoints est trie par coord. "y" croissante pour ne pas planter les calculs d'enveloppe convexe (ici garanti par la definition de array)
+    const bodyGeometry = new THREE.Geometry();
+    const shapePoints = baseShape.getSpacedPoints(128);
     const maxI = 256
     const circleRadius = 1
-    for(let j=0; j<shapePoints.length; j++) {
-	if(shapePoints[j].x == 0) {
-	    bodyPointsBuffer2.push(new THREE.Vector3(shapePoints[j].x, shapePoints[j].y, 0))
-	}
-	else {
-	    for(let i=0; i<maxI; i++) {
-		bodyPointsBuffer2.push(new THREE.Vector3(circleRadius*Math.cos(2*i*Math.PI/maxI)*shapePoints[j].x, shapePoints[j].y, circleRadius*Math.sin(2*i*Math.PI/maxI)*shapePoints[j].x));
-	    }
-	}
-	if(bodyPointsBuffer1.length != 0) {
-	    const partialGeom = new THREE.ConvexGeometry(bodyPointsBuffer1.concat(bodyPointsBuffer2));
-	    bodyGeometry.merge(partialGeom);
-	}
-	bodyPointsBuffer1 = bodyPointsBuffer2.slice();
-	bodyPointsBuffer2 = [];
+    const pointsNb = shapePoints.length
+    let point;
+    let ptsB = []
+    const firstY = shapePoints[0].y
+    const lastY = shapePoints[shapePoints.length-1].y
+    const totalPoints = pointsNb*maxI;
+      console.log(pointsNb*maxI);
+      for(let i=0; i<maxI; i++) {
+    ptsB = []
+    for(let j=0; j<pointsNb; j++) {
+        point = new THREE.Vector3(circleRadius*Math.cos(2*i*Math.PI/maxI)*shapePoints[j].x, shapePoints[j].y, circleRadius*Math.sin(2*i*Math.PI/maxI)*shapePoints[j].x);
+        ptsB.push(point);
+        bodyGeometry.vertices.push(point);
     }
-    //const bodyGeometry = new THREE.ConvexGeometry(bodyPoints);
-    //const circlePath = new THREE.CatmullRomCurve3(points);
-    //console.log(circlePath);
-    //const bodyGeometry = new THREE.ExtrudeGeometry(baseShape, {extrudePath:circlePath, steps:10, bevelEnabled:false})//, {extrudePath: circleCurve});
-    bodyGeometry.computeFaceNormals();
-    bodyGeometry.computeFlatVertexNormals();
-    bodyGeometry.computeMorphNormals();
-    console.log(bodyGeometry);
-    const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
-    bodyMesh.name = "body";
-    bodyMesh.castShadow = true;
-    sceneGraph.add(bodyMesh);
+    for(let j=0; j<pointsNb-1; j++) {
+        bodyGeometry.faces.push(new THREE.Face3(i*pointsNb+j, ((i+1)*pointsNb+j)%totalPoints, i*pointsNb+j+1));
+        bodyGeometry.faces.push(new THREE.Face3(i*pointsNb+j+1, ((i+1)*pointsNb+j)%totalPoints, ((i+1)*pointsNb+j+1)%totalPoints));
+    }
+    bodyGeometry.faces.push(new THREE.Face3(((i+1)*pointsNb)%totalPoints, i*pointsNb, totalPoints));
+    bodyGeometry.faces.push(new THREE.Face3(i*pointsNb+pointsNb-1, ((i+1)*pointsNb+pointsNb-1)%totalPoints, totalPoints+1));
+      }
+      bodyGeometry.vertices.push(new THREE.Vector3(0, firstY, 0));
+      bodyGeometry.vertices.push(new THREE.Vector3(0, lastY, 0));
+      bodyGeometry.computeFaceNormals();
+      bodyGeometry.computeFlatVertexNormals();
+      bodyGeometry.computeMorphNormals();
+      console.log(bodyGeometry);
+      const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
+      bodyMesh.name = "body";
+      bodyMesh.castShadow = true;
+      sceneGraph.add(bodyMesh);
+
+
+    //position des pattes
+    let radiiSum = 0;
+    for(let j=0; j<pointsNb; j++) {
+	radiiSum += Math.sqrt(Math.pow(shapePoints[j].x,2) + Math.pow(shapePoints[j].z,2))
+    }
+    const avgRadius = radiiSum / pointsNb;
+    console.log(avgRadius);
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    sphere.position.set(avgRadius*2/5, lastY, 0);
+    const sphere2 = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    sphere2.position.set(-avgRadius*2/5, lastY, 0);
+	sphere.name="patte1";
+	//sphere.visible=false;
+	sphere2.name="patte2";
+	//sphere2.visible=false;
+    sceneGraph.add(sphere);
+    sceneGraph.add(sphere2);
+
+    const Geometry1 = new THREE.CylinderGeometry(0.5,0.5, 15, 32 );
+    const material1 = new THREE.MeshLambertMaterial({ color: 0x000000});
+    const hautpatte = new THREE.Mesh(Geometry1,material1);
+    hautpatte.name="hautpatte";
+    hautpatte.receiveShadow = true;
+    hautpatte.position.set(0, -7.5, 0);
+	//hautpatte.visible=false;
+    sphere.add(hautpatte);
+
+    const genou = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    genou.name="genou";
+    genou.receiveShadow = true;
+    genou.position.set(0, -15, 0);
+	//genou.visible=false;
+    sphere.add(genou);
+    //pickingDataPattes.selectableObjects.push(genou);
+
+    const Geometry2 = new THREE.CylinderGeometry(0.5,0.5, 15, 32 );
+    const material2 = new THREE.MeshLambertMaterial({ color: 0x000000});
+    const baspatte = new THREE.Mesh(Geometry2,material2);
+    baspatte.name="baspatte";
+    baspatte.receiveShadow = true;
+	//baspatte.visible=false;
+    baspatte.position.set(0, -22.5, 0);
+    genou.add(baspatte);
+    
+    const pied = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    pied.name="pied";
+	//pied.visible=false;
+    pied.receiveShadow = true;
+    pied.position.set(0, -30, 0);
+    genou.add(pied);
+    //pickingDataPattes.selectableObjects.push(pied);
+
+    const hautpatte2 = new THREE.Mesh(Geometry1,material1);
+    hautpatte2.name="hautpatte2";
+    hautpatte2.receiveShadow = true;
+    hautpatte2.position.set(0, -7.5, 0);
+	//hautpatte2.visible=false;
+    sphere2.add(hautpatte2);
+
+    const genou2 = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    genou2.name="genou2";
+    genou2.receiveShadow = true;
+    genou2.position.set(0, -15, 0);
+    sphere2.add(genou2);
+	//genou2.visible=false;
+    //pickingDataPattes.selectableObjects.push(genou);
+
+    const baspatte2 = new THREE.Mesh(Geometry2,material2);
+    baspatte2.name="baspatte2";
+    baspatte2.receiveShadow = true;
+    baspatte2.position.set(0, -22.5, 0);
+	//baspatte2.visible=false;
+    genou2.add(baspatte2);
+    
+    const pied2 = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
+    pied2.name="pied2";
+    pied2.receiveShadow = true;
+    pied2.position.set(0, -30, 0);
+	//pied2.visible=false;
+    genou2.add(pied2);
+    //pickingDataPattes.selectableObjects.push(pied);
 };
-
-
-
