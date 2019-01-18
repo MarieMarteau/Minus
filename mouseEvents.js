@@ -36,8 +36,10 @@ const mouseEvents = (function() {
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
       }
 	  
+
 	  if( pickingData.enabledNag===true||pickingData.enabledPattes===true) {
 		  moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
+
 	  }
 
     },
@@ -48,6 +50,7 @@ const mouseEvents = (function() {
 			dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus)
 		}
 		
+
 		else if (drawingData.DessinNageoiresEnabled && drawingData.Nageoires){
 			dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
@@ -57,6 +60,7 @@ const mouseEvents = (function() {
       drawingData.enableDrawing = false;
 	  pickingData.enableDragAndDropNag = false;
 	  pickingData.enableDragAndDropPattes = false;
+
 
       if (drawingData.drawing3DPoints.length > 0){
 
@@ -84,6 +88,7 @@ const mouseEvents = (function() {
 		const keyCode = event.code;
 		console.log("Touche ",keyCode," relaché");
 		
+
 		if (keyCode=="KeyN" ){
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
@@ -114,12 +119,14 @@ const mouseEvents = (function() {
 			//drawingData.drawing3DPoints=null;
 		}
 		
+
 		
 		if (keyCode=="KeyD" && (drawingData.Nageoires ||drawingData.Pieds)){
 			pickingData.enabledNag=false;
 			drawingData.DessinNageoiresEnabled=true;
 		}
 		
+
 		if (keyCode=="KeyP"){
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
@@ -130,6 +137,7 @@ const mouseEvents = (function() {
 		
 		const object = pickingData.selectedObject;
 		resize(keyCode,object, scene);
+
 	},
 
   };

@@ -20,6 +20,7 @@ function main(){
 	DessinPiedsEnabled:false,
 	Nageoires:false,
 	Pieds:false,
+
 	  
     drawingObjects: [],
     selectedObject: null,
@@ -108,6 +109,7 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   Tool1.receiveShadow = true;
   drawingData.drawingObjects.push(Tool1);
   pickingData.selectableObjectsDrawing.push(Tool1);
+
   Tool1.visible = false;
   Tool1.position.set(-70,30,0);
   sceneGraph.add(Tool1);

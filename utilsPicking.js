@@ -1,3 +1,4 @@
+
 function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
     
 
@@ -5,6 +6,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 	if( pickingData.enableDragAndDropNag===true ) {
 		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
 		
+
 		// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
@@ -21,8 +23,10 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
         const d = selectedPoint.clone().sub( p0 );
 
         // Intersection entre le rayon 3D et le plan de la camera
+
         const p = pickingData.selectedPlane.p;
         const n = pickingData.selectedPlane.n;
+
         // tI = <p-p0,n> / <d,n>
         const tI = ( (p.clone().sub(p0)).dot(n) ) / ( d.dot(n) );
         // pI = p0 + tI d
@@ -32,6 +36,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
         const translation = pI.clone().sub( p );
 
         // Translation de l'objet et de la représentation visuelle
+
         pickingData.selectedObject.translateX( translation.x );
         pickingData.selectedObject.translateY( translation.y );
         pickingData.selectedObject.translateZ( translation.z );
@@ -149,7 +154,7 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
     if( pickingData.enabledPattes===true ) {
 	pickingData.selectableObjects = pickingData.selectableObjectsPattes;
 	
-	// Coordonnées du clic de souris
+
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -161,7 +166,9 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
         raycaster.setFromCamera(new THREE.Vector2(x,y),camera);
 
         // Calcul des interections entre le rayon et les objets passés en paramètres
+
         const intersects = raycaster.intersectObjects(pickingData.selectableObjects );
+
 
         const nbrIntersection = intersects.length;
         if( nbrIntersection>0 ) {
@@ -170,6 +177,7 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
             const intersection = intersects[0];
 
             // Sauvegarde des données du picking
+
             pickingData.selectedObject = intersection.object; // objet selectionné
             pickingData.selectedPlane.p = intersection.point.clone(); // coordonnées du point d'intersection 3D
             pickingData.selectedPlane.n = camera.getWorldDirection().clone(); // normale du plan de la caméra

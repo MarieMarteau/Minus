@@ -10,6 +10,7 @@ function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pi
 	Tool2.visible=true;
 	line.visible=false;
 	drawingData.DessinCorpsEnabled=false;
+
 	drawingData.Nageoires=true;
 	pickingData.enabledNag=true;
 	drawingData.drawing3DPoints=[];
@@ -18,6 +19,7 @@ function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pi
 function dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus){
 	utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
 	utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
+
 }
 
 function dessinPieds(event, scene, camera, raycaster, screenSize, drawingData,Minus){

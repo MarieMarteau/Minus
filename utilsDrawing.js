@@ -166,6 +166,7 @@ const utilsDrawing = (function() {
 };
 
     const extrudeGeometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
 	const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0xff0000}) ) ;
 	extrudeObject.material.side = THREE.DoubleSide;
 	const obj2 = extrudeObject.clone();
@@ -178,6 +179,7 @@ const utilsDrawing = (function() {
 	},
 	
 	
+
 	extrusionFoot: function(raycaster, camera, drawingData, scene, down){
 	
 	// Définition d'un cercle
@@ -216,7 +218,7 @@ const utilsDrawing = (function() {
 	scene.add( extrudeObject );
  
 	},
-	
+
 	
 	
 	
@@ -228,6 +230,7 @@ const utilsDrawing = (function() {
 	    mesh2.applyMatrix(mat);
 	    scene.add(mesh);
 	    scene.add(mesh2);
+
 	},
 
 
