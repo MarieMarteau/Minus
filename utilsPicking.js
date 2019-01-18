@@ -1,7 +1,6 @@
 function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
     
-    if( pickingData.enableDragAndDropNag===true ) {
-	pickingData.selectableObjects = pickingData.selectableObjectsNag;
+
 	
 	if( pickingData.enableDragAndDropNag===true ) {
 		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
@@ -104,9 +103,6 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 
 function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
     
-    if( pickingData.enabledNag===true ) {
-	pickingData.selectableObjects = pickingData.selectableObjectsNag;
-	
 
 	if( pickingData.enabledNag===true ) {
 		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
@@ -218,3 +214,4 @@ function patteBetween(p,patte){
     const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, 0.5),new THREE.MeshLambertMaterial({color: 0x000000}));
     nouvellePatte.name = patte.name;
     return nouvellePatte;
+}
