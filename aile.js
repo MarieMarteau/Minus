@@ -30,6 +30,7 @@ function creationSurfaces(verticesArray, material) {
     console.log(geometry);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.castShadow = true;
+    return mesh;
 }
 
 

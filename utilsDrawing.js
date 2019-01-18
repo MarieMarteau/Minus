@@ -223,7 +223,7 @@ const utilsDrawing = (function() {
 	
 	
 	creationAile: function(raycaster, camera, drawingData, scene, down){
-		const mesh = creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00}));
+	    const mesh = creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshLambertMaterial({ color: 0xffff00}));
 	    const mesh2 = mesh.clone();
 	    const mat = (new THREE.Matrix4()).identity();
 	    mat.elements[0] = -1;
