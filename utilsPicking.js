@@ -1,7 +1,7 @@
 function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
 	
 	if( pickingData.enableDragAndDropNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsNag;
+		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
 		
 		// Coordonnées de la position de la souris
         const xPixel = event.clientX;
@@ -97,7 +97,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
 	
 	if( pickingData.enabledNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsNag;
+		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
 		
 		// Coordonnées du clic de souris
         const xPixel = event.clientX;
@@ -204,12 +204,15 @@ function resize(keyCode,object, scene){
 
 function patteBetween(p1,p2,patte){
 	patte.position.set((p1.x+p2.x)/2,(p1.y+p2.y)/2,(p1.z+p2.z)/2);
-	const anglez = Math.atan(-(p1.x-p2.x)/(p1.y-p2.y));
-	const anglex = Math.atan(-(p1.z-p2.z)/(p1.y-p2.y));
-	const angley = Math.atan(-(p1.x-p2.x)/(p1.z-p2.z));
-	patte.rotation.z = anglez;
+	//const anglez = Math.atan(-(p1.x-p2.x)/(p1.y-p2.y));
+	//const anglex = Math.atan(-(p1.z-p2.z)/(p1.y-p2.y));
+	//const angley = Math.atan(-(p1.x-p2.x)/(p1.z-p2.z));
+	const R = RotationBetweenTwoAxes(p1,p2);
+	patte.applyMatrix(R);
+	/*= anglez;
 	patte.rotation.x = anglex;
-	patte.rotation.y = angley;
+	patte.rotation.y = angley;*/
 	//patte.scale.y = Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y)+(p1.z-p2.z)*(p1.z-p2.z))/15;
 	//patte.scale.y = 2;
+	return patte;
 }

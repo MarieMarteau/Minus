@@ -17,6 +17,9 @@ function main(){
 	//Permet de définir le mode d'action
 	DessinCorpsEnabled:true,
 	DessinNageoiresEnabled:false,
+	DessinPiedsEnabled:false,
+	Nageoires:false,
+	Pieds:false,
 	  
     drawingObjects: [],
     selectedObject: null,
@@ -33,7 +36,7 @@ function main(){
 	enableDragAndDropPattes : false,
 	
 	selectionPosition:null,
-	selectableObjectsNag: [],
+	selectableObjectsDrawing: [],
 	selectableObjectsPattes: [],
     selectableObjects: [],    // Les objets selectionnables par picking
     selectedObject: null,     // L'objet actuellement selectionné
@@ -104,7 +107,7 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   Tool1.name="Tool1";
   Tool1.receiveShadow = true;
   drawingData.drawingObjects.push(Tool1);
-  pickingData.selectableObjectsNag.push(Tool1);
+  pickingData.selectableObjectsDrawing.push(Tool1);
   Tool1.visible = false;
   Tool1.position.set(-70,30,0);
   sceneGraph.add(Tool1);
@@ -115,7 +118,7 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   Tool2.name="Tool2";
   Tool2.receiveShadow = true;
   drawingData.drawingObjects.push(Tool2);
-  pickingData.selectableObjectsNag.push(Tool2);
+  pickingData.selectableObjectsDrawing.push(Tool2);
   Tool2.visible = false;
   Tool2.position.set(-70,0,0);
   sceneGraph.add(Tool2);
