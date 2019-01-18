@@ -178,7 +178,44 @@ const utilsDrawing = (function() {
 	},
 	
 	
+	extrusionFoot: function(raycaster, camera, drawingData, scene, down){
 	
+	// Définition d'un cercle
+    const circleRadius = 0.5;
+	var circleShape = new THREE.Shape();
+	circleShape.moveTo( 0, circleRadius );
+	circleShape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );
+	circleShape.quadraticCurveTo( circleRadius, - circleRadius, 0, - circleRadius );
+	circleShape.quadraticCurveTo( - circleRadius, - circleRadius, - circleRadius, 0 );
+	circleShape.quadraticCurveTo( - circleRadius, circleRadius, 0, circleRadius );
+	
+	//Mise en forme courbe
+	const PointsAiles = drawingData.drawing3DPoints;
+	const Points2DAiles = [];
+	const x = PointsAiles[0].x;
+	const y = PointsAiles[0].y;
+		for (let i = 0; i<PointsAiles.length;i++){
+				Points2DAiles.push(new THREE.Vector3(PointsAiles[i].x-x,PointsAiles[i].y-y,0));
+			}
+
+    // Définition du chemin à parcourir 
+    const Spline =  new THREE.CatmullRomCurve3( drawingData.drawing3DPoints );
+	drawingData.doigtsNageoires.push(drawingData.drawing3DPoints);
+	console.log(drawingData.doigtsNageoires);
+	
+	// Création de la forme extrudée 
+    const extrudeSettings = {
+	steps: 200,
+	bevelEnabled: false,
+	extrudePath: Spline
+};
+
+    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( circleShape, extrudeSettings );
+	const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0x000000}) ) ;
+	extrudeObject.material.side = THREE.DoubleSide;
+	scene.add( extrudeObject );
+ 
+	},
 	
 	
 	
