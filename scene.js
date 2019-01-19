@@ -35,10 +35,17 @@ function main(){
 	enableDragAndDropNag : false,
 	enabledPattes: false,
 	enableDragAndDropPattes : false,
+	enableEye:false,
+	enableDragAndDropEye : false,
+	enableChimney:false,
+	enableDragAndDropChimney : false,
+	
 	
 	selectionPosition:null,
 	selectableObjectsDrawing: [],
 	selectableObjectsPattes: [],
+	selectableObjectsEye: [],
+	selectableObjectsChimney: [],
     selectableObjects: [],    // Les objets selectionnables par picking
     selectedObject: null,     // L'objet actuellement selectionné
 	selectedPlane: {p:null,n:null},
@@ -103,7 +110,7 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   
   //Outils pour placer les nageoires
   const ToolG1 = new THREE.SphereGeometry(10,32,32);
-  const ToolM1 = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const ToolM1 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
   const Tool1 = new THREE.Mesh(ToolG1,ToolM1);
   Tool1.name="Tool1";
   Tool1.receiveShadow = true;
@@ -111,21 +118,53 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   pickingData.selectableObjectsDrawing.push(Tool1);
 
   Tool1.visible = false;
-  Tool1.position.set(-70,30,0);
+  Tool1.position.set(-70,0,0);
   sceneGraph.add(Tool1);
   
-  const ToolG2 = new THREE.SphereGeometry(20,32,32);
-  const ToolM2 = new THREE.MeshLambertMaterial({ color: 0xffaa00, transparent: true, opacity: 0.5});
+  const ToolG2 = primitive.Cone(new THREE.Vector3(-10,0,0),new THREE.Vector3(0,0,0),10);
+  const ToolM2 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
   const Tool2 = new THREE.Mesh(ToolG2,ToolM2);
   Tool2.name="Tool2";
   Tool2.receiveShadow = true;
   drawingData.drawingObjects.push(Tool2);
   pickingData.selectableObjectsDrawing.push(Tool2);
   Tool2.visible = false;
-  Tool2.position.set(-70,0,0);
+  Tool2.position.set(-60,-22,0);
   sceneGraph.add(Tool2);
   
-
+  const ToolG3 = new THREE.CubeGeometry(10,10,10);
+  const ToolM3 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
+  const Tool3 = new THREE.Mesh(ToolG3,ToolM3);
+  Tool3.name="Tool3";
+  Tool3.receiveShadow = true;
+  drawingData.drawingObjects.push(Tool3);
+  pickingData.selectableObjectsDrawing.push(Tool3);
+  Tool3.visible = false;
+  Tool3.position.set(-70,-40,0);
+  sceneGraph.add(Tool3);
+  
+  //Outils placer yeux
+  const ToolEyeG = new THREE.SphereGeometry(7,32,32);
+  const ToolEyeM = new THREE.MeshLambertMaterial({ color: 0xffffff});
+  const ToolEye = new THREE.Mesh(ToolEyeG,ToolEyeM);
+  ToolEye.name="ToolEye";
+  ToolEye.receiveShadow = true;
+  ToolEye.visible = false;
+  pickingData.selectableObjectsEye.push(ToolEye);
+  sceneGraph.add(ToolEye);
+  ToolEye.position.set(-70,-10,0);
+  
+  //Outils placer cheminées
+  const ToolCG = new THREE.CylinderGeometry(3,3,10,32);
+  const ToolChimney = new THREE.Mesh(ToolCG, new THREE.MeshPhysicalMaterial({ color: 0xb21605, emissive : 0x000000,metalness:0.2}));
+  
+  ToolChimney.name="ToolChimney";
+  ToolChimney.receiveShadow = true;
+  ToolChimney.visible = false;
+  pickingData.selectableObjectsChimney.push(ToolChimney);
+  sceneGraph.add(ToolChimney);
+  ToolChimney.position.set(-70,-10,0);
+  
 }
 
 function initEmptyScene(sceneThreeJs, affichageElement) {

@@ -34,7 +34,9 @@ function getBody(sceneGraph, array) {
       bodyGeometry.computeFlatVertexNormals();
       bodyGeometry.computeMorphNormals();
       console.log(bodyGeometry);
-      const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshLambertMaterial({color:0x00ff00}));
+	  
+	  
+	  const bodyMesh = new THREE.Mesh(bodyGeometry, new THREE.MeshPhysicalMaterial({ color: 0xb21605, emissive : 0x000000,metalness:0.2}));
       bodyMesh.name = "body";
       bodyMesh.castShadow = true;
       sceneGraph.add(bodyMesh);
@@ -55,8 +57,8 @@ function getBody(sceneGraph, array) {
 	//sphere.visible=false;
 	sphere2.name="patte2";
 	//sphere2.visible=false;
-    sceneGraph.add(sphere);
-    sceneGraph.add(sphere2);
+    bodyMesh.add(sphere);
+    bodyMesh.add(sphere2);
 
     const Geometry1 = new THREE.CylinderGeometry(0.5,0.5, 15, 32 );
     const material1 = new THREE.MeshLambertMaterial({ color: 0x000000});
@@ -81,7 +83,7 @@ function getBody(sceneGraph, array) {
     baspatte.name="baspatte";
     baspatte.receiveShadow = true;
 	//baspatte.visible=false;
-    baspatte.position.set(0, -22.5, 0);
+    baspatte.position.set(0, -15, 0);
     genou.add(baspatte);
     
     const pied = new THREE.Mesh(new THREE.SphereGeometry(5,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));

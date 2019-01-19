@@ -21,7 +21,8 @@ const mouseEvents = (function() {
 		pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
 		
       }
-
+	  
+	  
     },
 
     onMouseMove: function( event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus){
@@ -37,7 +38,7 @@ const mouseEvents = (function() {
       }
 	  
 
-	  if( pickingData.enabledNag===true||pickingData.enabledPattes===true) {
+	  if( pickingData.enabledNag===true||pickingData.enabledPattes===true||pickingData.enabledEye===true||pickingData.enabledChimney===true) {
 		  moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
 
 	  }
@@ -57,9 +58,13 @@ const mouseEvents = (function() {
 		else if(drawingData.DessinNageoiresEnabled && drawingData.Pieds){
 			dessinPieds(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
+		
+		
       drawingData.enableDrawing = false;
 	  pickingData.enableDragAndDropNag = false;
 	  pickingData.enableDragAndDropPattes = false;
+	   pickingData.enableDragAndDropEye = false;
+	   pickingData.enableDragAndDropChimney = false;
 
 
       if (drawingData.drawing3DPoints.length > 0){
@@ -79,15 +84,14 @@ const mouseEvents = (function() {
 	// Fonction appelée lors de l'appuis sur une touche du clavier
 	onKeyDown : function(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus) {
 		
-		const keyCode = event.code;
-		console.log("Touche ",keyCode," enfoncé");
+		
 	},
 	
 	onKeyUp : function(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus) {
 
 		const keyCode = event.code;
-		console.log("Touche ",keyCode," relaché");
-		
+		console.log(keyCode);
+				
 
 		if (keyCode=="KeyN" ){
 			drawingData.drawing3DPoints=[];
@@ -115,7 +119,6 @@ const mouseEvents = (function() {
 			pickingData.enabledNag=true;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
-			//Minus.nageoires.push();
 			//drawingData.drawing3DPoints=null;
 		}
 		
@@ -133,6 +136,35 @@ const mouseEvents = (function() {
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus);
+		}
+		
+		if (keyCode=="KeyY"){
+			drawingData.DessinNageoiresEnabled=false;
+			pickingData.enabledNag=false;
+			pickingData.enabledPattes=false;
+			pickingData.enabledEye=true;
+			drawingData.drawing3DPoints=[];
+			drawingData.doigtsNageoires=[];
+			initEye(scene,pickingData);
+		}
+		
+		if (keyCode=="KeyC"){
+			drawingData.DessinNageoiresEnabled=false;
+			pickingData.enabledNag=false;
+			pickingData.enabledPattes=false;
+			pickingData.enabledEye=false;
+			pickingData.enabledChimney=true;
+			drawingData.drawing3DPoints=[];
+			drawingData.doigtsNageoires=[];
+			initChimney(scene,pickingData);
+		}
+		
+		if(pickingData.enabledEye && keyCode=="Enter"){
+			creationEye(scene,pickingData);
+		}
+		
+		if(pickingData.enabledChimney && keyCode=="Enter"){
+			creationChimney(scene,pickingData);
 		}
 		
 		const object = pickingData.selectedObject;
