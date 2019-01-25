@@ -58,6 +58,13 @@ function main(){
     
     const Minus = {
         corps:null,
+		nbSurfaces:0,
+		nbDoigts:0,
+		surfacesG:[],
+		pointDepartG:null,
+		surfacesD:[],
+		doigtsG:[],
+		doigtsD:[],
 	animate:false
     };
     
@@ -89,7 +96,7 @@ function main(){
 
     
 
-    animationLoop(sceneThreeJs,animation);
+    animationLoop(sceneThreeJs,animation,Minus);
 }
 
 
@@ -221,16 +228,19 @@ function render( sceneThreeJs ) {
     sceneThreeJs.renderer.render(sceneThreeJs.sceneGraph, sceneThreeJs.camera);
 }
 
-function animate(sceneThreeJs, animation, time) {
+function animate(sceneThreeJs, animation, time,Minus) {
 
     const t = time/1000;//time in second
 	
 	if(animation.animate){
-		const body = sceneThreeJs.sceneGraph.getObjectByName("body");
+		const body = Minus.corps;
 		if(body!=null){
 			body.position.z+=0.1;
-			console.log(body);
 		}
+		
+		console.log(Minus.surfacesG);
+		moveNag(Minus,t);
+		
 	}
 	
 	
@@ -238,15 +248,15 @@ function animate(sceneThreeJs, animation, time) {
 }
 
 // Fonction de gestion d'animation
-function animationLoop(sceneThreeJs,animation) {
+function animationLoop(sceneThreeJs,animation,Minus) {
 	
     // Fonction JavaScript de demande d'image courante à afficher
     requestAnimationFrame(
 
 	// La fonction (dite de callback) recoit en paramètre le temps courant
 	function(timeStamp){
-	    animate(sceneThreeJs,animation,timeStamp); // appel de notre fonction d'animation
-	    animationLoop(sceneThreeJs,animation); // relance une nouvelle demande de mise à jour
+	    animate(sceneThreeJs,animation,timeStamp,Minus); // appel de notre fonction d'animation
+	    animationLoop(sceneThreeJs,animation,Minus); // relance une nouvelle demande de mise à jour
 	}
 
     );
