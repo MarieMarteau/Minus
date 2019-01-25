@@ -387,7 +387,7 @@ function resize(keyCode,object, scene){
 
 function patteBetween(p,patte){
     const rayonCylindre = 2;
-    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, rayonCylindre),new THREE.MeshLambertMaterial({color: 0x000000}));
+    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, rayonCylindre),new THREE.MeshPhysicalMaterial({color: 0x333333, emissive:0x000000, metalness:0.5}));
     nouvellePatte.name = patte.name;
     nouvellePatte.receiveShadow = true;
     return nouvellePatte;
