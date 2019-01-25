@@ -118,10 +118,10 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   pickingData.selectableObjectsDrawing.push(Tool1);
 
   Tool1.visible = false;
-  Tool1.position.set(-70,0,0);
+  Tool1.position.set(-70,-10,0);
   sceneGraph.add(Tool1);
   
-  const ToolG2 = primitive.Cone(new THREE.Vector3(-10,0,0),new THREE.Vector3(0,0,0),10);
+  const ToolG2 = new THREE.CubeGeometry(10,10,10);
   const ToolM2 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
   const Tool2 = new THREE.Mesh(ToolG2,ToolM2);
   Tool2.name="Tool2";
@@ -129,19 +129,8 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
   drawingData.drawingObjects.push(Tool2);
   pickingData.selectableObjectsDrawing.push(Tool2);
   Tool2.visible = false;
-  Tool2.position.set(-60,-22,0);
+  Tool2.position.set(-70,-30,0);
   sceneGraph.add(Tool2);
-  
-  const ToolG3 = new THREE.CubeGeometry(10,10,10);
-  const ToolM3 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
-  const Tool3 = new THREE.Mesh(ToolG3,ToolM3);
-  Tool3.name="Tool3";
-  Tool3.receiveShadow = true;
-  drawingData.drawingObjects.push(Tool3);
-  pickingData.selectableObjectsDrawing.push(Tool3);
-  Tool3.visible = false;
-  Tool3.position.set(-70,-40,0);
-  sceneGraph.add(Tool3);
   
   //Outils placer yeux
   const ToolEyeG = new THREE.SphereGeometry(7,32,32);

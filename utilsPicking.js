@@ -264,7 +264,7 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
 	    pickingData.selectedObject.material.color.set(0x00ffff);
 	    for (let k = 0; k < pickingData.selectableObjects.length; k++){
 		if (pickingData.selectableObjects[k] != pickingData.selectedObject){
-		    pickingData.selectableObjects[k].material.color.set(0x000000);
+		    pickingData.selectableObjects[k].material.color.set(0xffffff);
 		}
 	    }
 
