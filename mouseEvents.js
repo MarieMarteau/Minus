@@ -87,7 +87,7 @@ const mouseEvents = (function() {
 		
 	},
 	
-	onKeyUp : function(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus) {
+	onKeyUp : function(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus,animation) {
 
 		const keyCode = event.code;
 		console.log(keyCode);
@@ -192,6 +192,10 @@ const mouseEvents = (function() {
 		
 		if(pickingData.enabledChimney && keyCode=="Enter"){
 			creationChimney(scene,pickingData);
+		}
+		
+		if(keyCode=="KeyA"){
+			animation.animate = !animation.animate;
 		}
 		
 		const object = pickingData.selectedObject;

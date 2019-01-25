@@ -235,6 +235,7 @@ const utilsDrawing = (function() {
 	    const mat = (new THREE.Matrix4()).identity();
 	    mat.elements[0] = -1;
 	    mesh2.applyMatrix(mat);
+		mesh.name="aile"+drawingData.doigtsNageoires.length;
 	    body.add(mesh);
 	    body.add(mesh2);
 

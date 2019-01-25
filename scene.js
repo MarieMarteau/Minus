@@ -3,12 +3,16 @@
 main();
 
 function main(){
-
-    const sceneThreeJs = {
+	
+	const animation ={
+		animate:false,
+	}
+	
+	const sceneThreeJs = {
 	sceneGraph: null,
 	camera: null,
 	renderer: null,
-	controls: null
+	controls: null,
     };
 
     // Données pour le dessin
@@ -54,7 +58,7 @@ function main(){
     
     const Minus = {
         corps:null,
-	nageoires:[],
+	animate:false
     };
     
     initEmptyScene(sceneThreeJs);
@@ -77,7 +81,7 @@ function main(){
     const wrapperMouseUp = function(event) { mouseEvents.onMouseUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
     document.addEventListener( 'mouseup', wrapperMouseUp );
     
-    const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
+    const wrapperKeyUp = function(event) { mouseEvents.onKeyUp(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus,animation); };
     document.addEventListener( 'keyup', wrapperKeyUp );
     
     const wrapperKeyDown = function(event) { mouseEvents.onKeyDown(event,sceneThreeJs.sceneGraph, sceneThreeJs.camera, raycaster, screenSize, drawingData,pickingData,Minus); };
@@ -85,7 +89,7 @@ function main(){
 
     
 
-    animationLoop(sceneThreeJs);
+    animationLoop(sceneThreeJs,animation);
 }
 
 
@@ -217,21 +221,32 @@ function render( sceneThreeJs ) {
     sceneThreeJs.renderer.render(sceneThreeJs.sceneGraph, sceneThreeJs.camera);
 }
 
-function animate(sceneThreeJs, time) {
+function animate(sceneThreeJs, animation, time) {
 
     const t = time/1000;//time in second
+	
+	if(animation.animate){
+		const body = sceneThreeJs.sceneGraph.getObjectByName("body");
+		if(body!=null){
+			body.position.z+=0.1;
+			console.log(body);
+		}
+	}
+	
+	
     render(sceneThreeJs);
 }
 
 // Fonction de gestion d'animation
-function animationLoop(sceneThreeJs) {
+function animationLoop(sceneThreeJs,animation) {
+	
     // Fonction JavaScript de demande d'image courante à afficher
     requestAnimationFrame(
 
 	// La fonction (dite de callback) recoit en paramètre le temps courant
 	function(timeStamp){
-	    animate(sceneThreeJs,timeStamp); // appel de notre fonction d'animation
-	    animationLoop(sceneThreeJs); // relance une nouvelle demande de mise à jour
+	    animate(sceneThreeJs,animation,timeStamp); // appel de notre fonction d'animation
+	    animationLoop(sceneThreeJs,animation); // relance une nouvelle demande de mise à jour
 	}
 
     );
