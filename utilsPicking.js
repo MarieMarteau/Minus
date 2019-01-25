@@ -2,12 +2,12 @@
 function moveSelection(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
     
 
+    
+    if( pickingData.enableDragAndDropNag===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
 	
-	if( pickingData.enableDragAndDropNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
-		
 
-		// Coordonnées de la position de la souris
+	// Coordonnées de la position de la souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -105,7 +105,7 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 	hautpatte2.name = ""
     }
 
-	if( pickingData.enableDragAndDropEye===true ) {
+    if( pickingData.enableDragAndDropEye===true ) {
 	pickingData.selectableObjects = pickingData.selectableObjectsEye;
 	
 	// Coordonnées de la position de la souris
@@ -142,8 +142,8 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 	
     }
 
-	
-	if( pickingData.enableDragAndDropChimney===true ) {
+    
+    if( pickingData.enableDragAndDropChimney===true ) {
 	pickingData.selectableObjects = pickingData.selectableObjectsChimney;
 	
 	// Coordonnées de la position de la souris
@@ -185,10 +185,10 @@ function moveSelection(event, scene, camera, raycaster, screenSize, drawingData,
 function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus){
     
 
-	if( pickingData.enabledNag===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
-		
-		// Coordonnées du clic de souris
+    if( pickingData.enabledNag===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsDrawing;
+	
+	// Coordonnées du clic de souris
         const xPixel = event.clientX;
         const yPixel = event.clientY;
 
@@ -274,7 +274,7 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
     }
 
     if( pickingData.enabledEye===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsEye;
+	pickingData.selectableObjects = pickingData.selectableObjectsEye;
 	
 
         const xPixel = event.clientX;
@@ -319,8 +319,8 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
 	
     }
 
-	if( pickingData.enabledChimney===true ) {
-		pickingData.selectableObjects = pickingData.selectableObjectsChimney;
+    if( pickingData.enabledChimney===true ) {
+	pickingData.selectableObjects = pickingData.selectableObjectsChimney;
 	
 
         const xPixel = event.clientX;
@@ -386,7 +386,9 @@ function resize(keyCode,object, scene){
 }
 
 function patteBetween(p,patte){
-    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, 0.5),new THREE.MeshLambertMaterial({color: 0x000000}));
+    const rayonCylindre = 2;
+    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, rayonCylindre),new THREE.MeshLambertMaterial({color: 0x000000}));
     nouvellePatte.name = patte.name;
+    nouvellePatte.receiveShadow = true;
     return nouvellePatte;
 }
