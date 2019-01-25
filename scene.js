@@ -228,8 +228,8 @@ function animate(sceneThreeJs, animation, time) {
 	if(animation.animate){
 		const body = sceneThreeJs.sceneGraph.getObjectByName("body");
 		if(body!=null){
-			body.position.z+=0.1;
-			console.log(body);
+			//body.position.z+=0.1;
+			flex(sceneThreeJs.sceneGraph,t);
 		}
 	}
 	

@@ -90,7 +90,7 @@ function getBody(sceneGraph, array) {
     pied.name="pied";
     //pied.visible=false;
     pied.receiveShadow = true;
-    pied.position.set(0, -30, 0);
+    pied.position.set(0, -15, 0);
     genou.add(pied);
     //pickingDataPattes.selectableObjects.push(pied);
 
@@ -119,7 +119,7 @@ function getBody(sceneGraph, array) {
     const pied2 = new THREE.Mesh(new THREE.SphereGeometry(rayonBoule,32,32),new THREE.MeshLambertMaterial({ color: 0x000000}));
     pied2.name="pied2";
     pied2.receiveShadow = true;
-    pied2.position.set(0, -30, 0);
+    pied2.position.set(0, -15, 0);
     //pied2.visible=false;
     genou2.add(pied2);
     //pickingDataPattes.selectableObjects.push(pied);
