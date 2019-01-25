@@ -264,7 +264,7 @@ function pick(event, scene, camera, raycaster, screenSize, drawingData, pickingD
 	    pickingData.selectedObject.material.color.set(0x00ffff);
 	    for (let k = 0; k < pickingData.selectableObjects.length; k++){
 		if (pickingData.selectableObjects[k] != pickingData.selectedObject){
-		    pickingData.selectableObjects[k].material.color.set(0xffffff);
+		    pickingData.selectableObjects[k].material.color.set(0x000000);
 		}
 	    }
 
@@ -386,7 +386,9 @@ function resize(keyCode,object, scene){
 }
 
 function patteBetween(p,patte){
-    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, 0.5),new THREE.MeshLambertMaterial({color: 0x000000}));
+    const rayonCylindre = 2;
+    const nouvellePatte = new THREE.Mesh(primitive.Cylinder(new THREE.Vector3(0,0,0), p, rayonCylindre),new THREE.MeshLambertMaterial({color: 0x000000}));
     nouvellePatte.name = patte.name;
+    nouvellePatte.receiveShadow = true;
     return nouvellePatte;
 }

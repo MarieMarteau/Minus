@@ -7,7 +7,7 @@ return {
 
     // Création et ajout de lumière dans le graphe de scène
 insertLight: function(sceneGraph,p) {
-        const spotLight = new THREE.SpotLight(0xffffff,0.9);
+        const spotLight = new THREE.SpotLight(0xffffff,0.3);
         spotLight.position.copy(p);
         spotLight.castShadow = true;
         spotLight.shadow.mapSize.width = 2048;

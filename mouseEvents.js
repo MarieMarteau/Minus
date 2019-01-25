@@ -94,14 +94,6 @@ const mouseEvents = (function() {
 				
 
 		if (keyCode=="KeyN" ){
-			const ToolEye = scene.getObjectByName("ToolEye");
-			const ToolChimney = scene.getObjectByName("ToolChimney");
-	
-			ToolEye.visible=false;
-			ToolChimney.visible=false;
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=false;
-			pickingData.enabledChimney=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			drawingData.Nageoires=true;
@@ -109,28 +101,17 @@ const mouseEvents = (function() {
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
 			initDrawingTools(scene);
-			pattesNoires(scene);
 		}
 		
 		if (keyCode=="KeyF" ){
-			const ToolEye = scene.getObjectByName("ToolEye");
-			const ToolChimney = scene.getObjectByName("ToolChimney");
-	
-			ToolEye.visible=false;
-			ToolChimney.visible=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=false;
-			pickingData.enabledChimney=false;
-			
 			drawingData.Nageoires=false;
 			drawingData.Pieds=true;
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
 			initDrawingTools(scene);
 			initFoot(scene);
-			pattesNoires(scene);
 		}
 		
 		if (keyCode=="KeyM" && (drawingData.Nageoires ||drawingData.Pieds)){
@@ -150,11 +131,6 @@ const mouseEvents = (function() {
 		
 
 		if (keyCode=="KeyP"){
-			const ToolEye = scene.getObjectByName("ToolEye");
-			const ToolChimney = scene.getObjectByName("ToolChimney");
-	
-			ToolEye.visible=false;
-			ToolChimney.visible=false;
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
 			drawingData.drawing3DPoints=[];
@@ -167,11 +143,9 @@ const mouseEvents = (function() {
 			pickingData.enabledNag=false;
 			pickingData.enabledPattes=false;
 			pickingData.enabledEye=true;
-			pickingData.enabledChimney=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initEye(scene,pickingData);
-			pattesNoires(scene)
 		}
 		
 		if (keyCode=="KeyC"){
@@ -183,7 +157,6 @@ const mouseEvents = (function() {
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initChimney(scene,pickingData);
-			pattesNoires(scene);
 		}
 		
 		if(pickingData.enabledEye && keyCode=="Enter"){
