@@ -240,8 +240,25 @@ const utilsDrawing = (function() {
 	    const extrudeGeometry = new THREE.ExtrudeBufferGeometry( circleShape, extrudeSettings );
 	    const extrudeObject = new THREE.Mesh( extrudeGeometry, new THREE.MeshLambertMaterial({ color: 0x000000}) ) ;
 	    extrudeObject.material.side = THREE.DoubleSide;
-	    body.add( extrudeObject );
-	    
+	    const genou1 = scene.getObjectByName('genou');
+	    const genou2 = scene.getObjectByName('genou2');
+	    const pied1 = scene.getObjectByName('pied');
+	    const pied2 = scene.getObjectByName('pied2');
+	    console.log(extrudeObject.position);
+	    const pos1 = genou1.worldToLocal(extrudeObject.localToWorld(new THREE.Vector3(0,0,0)));
+	    console.log(pos1);
+	    const pos2 = genou2.worldToLocal(extrudeObject.localToWorld(new THREE.Vector3(0,0,0)));
+	    console.log(pos2);
+	    const dist1 = new THREE.Vector3(pied1.position.x - pos1.x, pied1.position.y - pos1.y, pied1.position.z - pos1.z).length();
+	    const dist2 = new THREE.Vector3(pied2.position.x - pos2.x, pied2.position.y - pos2.y, pied2.position.z - pos2.z).length();
+	    console.log(dist1);
+	    console.log(dist2);
+	    if(dist1 < dist2) {
+		pied1.add(extrudeObject);
+	    }
+	    else {
+		pied2.add(extrudeObject);
+	    }
 	},
 
 	
