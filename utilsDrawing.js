@@ -258,6 +258,27 @@ const utilsDrawing = (function() {
 	    body.add(mesh2);
 
 	},
+	
+	creationPalme: function(raycaster, camera, drawingData, scene, down,Minus){
+		
+		const body = scene.getObjectByName('body');
+		
+	    const mesh = creationSurfaces(drawingData.doigtsNageoires,new THREE.MeshPhysicalMaterial({color: 0x333333, emissive:0x000000, metalness:0.5}));
+	    const mesh2 = mesh.clone();
+	    const mat = (new THREE.Matrix4()).identity();
+	    mat.elements[0] = -1;
+	    /*mesh2.applyMatrix(mat);
+		mesh.name="surfaceG"+Minus.nbSurfaces;
+		mesh2.name="surfaceD"+Minus.nbSurfaces;
+		Minus.surfacesG.push(mesh);
+		Minus.surfacesD.push(mesh2);
+		
+		Minus.nbSurfaces+=1;*/
+		
+	    body.add(mesh);
+	    body.add(mesh2);
+
+	},
 
 
 

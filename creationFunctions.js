@@ -24,6 +24,7 @@ function dessinNageoires(event, scene, camera, raycaster, screenSize, drawingDat
 
 function dessinPieds(event, scene, camera, raycaster, screenSize, drawingData,Minus){
 	utilsDrawing.extrusionFoot(raycaster, camera, drawingData,scene, true);
+	utilsDrawing.creationPalme(raycaster, camera, drawingData,scene, true,Minus);
 }
 
 function initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus){
