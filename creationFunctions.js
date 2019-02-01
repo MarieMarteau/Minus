@@ -17,8 +17,8 @@ function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pi
 }
 
 function dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus){
-	utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true);
-	utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true);
+	utilsDrawing.extrusionFinger(raycaster, camera, drawingData,scene, true,Minus);
+	utilsDrawing.creationAile(raycaster, camera, drawingData,scene, true,Minus);
 
 }
 

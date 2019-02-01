@@ -133,7 +133,7 @@ const utilsDrawing = (function() {
 	
 	
 	
-	extrusionFinger: function(raycaster, camera, drawingData, scene, down){
+	extrusionFinger: function(raycaster, camera, drawingData, scene, down,Minus){
 	
 	const body = scene.getObjectByName('body');
 	
@@ -155,6 +155,10 @@ const utilsDrawing = (function() {
 		for (let i = 0; i<PointsAiles.length;i++){
 				Points2DAiles.push(new THREE.Vector3(PointsAiles[i].x-x,PointsAiles[i].y-y,0));
 			}
+			
+	if (Minus.nbDoigts==0){
+		Minus.pointDepartG=drawingData.drawing3DPoints[0];
+	}
 
     // Définition du chemin à parcourir 
     const Spline =  new THREE.CatmullRomCurve3( drawingData.drawing3DPoints );
@@ -178,6 +182,14 @@ const utilsDrawing = (function() {
 	obj2.applyMatrix(mat);
 	body.add( extrudeObject );
 	body.add(obj2);
+	
+	extrudeObject.name="doigtG"+Minus.nbDoigts;
+	obj2.name="doigtD"+Minus.nbDoigts;
+	Minus.doigtsG.push(extrudeObject);
+	Minus.doigtsD.push(obj2);
+	
+	Minus.nbDoigts+=1;
+	
  
 	},
 	
@@ -226,7 +238,7 @@ const utilsDrawing = (function() {
 	
 	
 	
-	creationAile: function(raycaster, camera, drawingData, scene, down){
+	creationAile: function(raycaster, camera, drawingData, scene, down,Minus){
 		
 		const body = scene.getObjectByName('body');
 		
@@ -235,7 +247,13 @@ const utilsDrawing = (function() {
 	    const mat = (new THREE.Matrix4()).identity();
 	    mat.elements[0] = -1;
 	    mesh2.applyMatrix(mat);
-		mesh.name="aile"+drawingData.doigtsNageoires.length;
+		mesh.name="surfaceG"+Minus.nbSurfaces;
+		mesh2.name="surfaceD"+Minus.nbSurfaces;
+		Minus.surfacesG.push(mesh);
+		Minus.surfacesD.push(mesh2);
+		
+		Minus.nbSurfaces+=1;
+		
 	    body.add(mesh);
 	    body.add(mesh2);
 
