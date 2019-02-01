@@ -202,14 +202,14 @@ function initEmptyScene(sceneThreeJs, affichageElement) {
     sceneInit.insertRenderInHtml(sceneThreeJs.renderer.domElement);
 
     sceneThreeJs.controls = new THREE.OrbitControls( sceneThreeJs.camera,sceneThreeJs.renderer.domElement );
-    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update1(sceneThreeJs.camera,spotLight1);},true);
+    /*sceneThreeJs.controls.addEventListener( 'change', function(event){light_update1(sceneThreeJs.camera,spotLight1);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update2(sceneThreeJs.camera,spotLight2);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update3(sceneThreeJs.camera,spotLight3);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update4(sceneThreeJs.camera,spotLight4);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update5(sceneThreeJs.camera,spotLight5);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update6(sceneThreeJs.camera,spotLight6);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update7(sceneThreeJs.camera,spotLight7);},true);
-    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update8(sceneThreeJs.camera,spotLight8);},true);
+    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update8(sceneThreeJs.camera,spotLight8);},true);*/
 
     window.addEventListener('resize', function(event){onResize(sceneThreeJs);}, true);
 }
@@ -236,11 +236,9 @@ function animate(sceneThreeJs, animation, time,Minus) {
 		const body = Minus.corps;
 		if(body!=null){
 			//body.position.z+=0.1;
-			flex(sceneThreeJs.sceneGraph,t);
+			flex(Minus,sceneThreeJs.sceneGraph,t);
 		}
-		
-		console.log(Minus.surfacesG);
-		moveNag(Minus,t);
+		//moveNag(Minus,t);
 		
 	}
 	
