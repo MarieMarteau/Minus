@@ -5,11 +5,14 @@ function dessinCorps(event, scene, camera, raycaster, screenSize, drawingData,pi
 	const line = scene.getObjectByName("line");
 	utilsDrawing.creationBody(raycaster, camera, drawingData,scene, true);
 	Minus.corps = scene.getObjectByName("body");
+	const pied1 = scene.getObjectByName("pied");
+	const pied2 = scene.getObjectByName("pied2");
 	plane.visible = false;
 	Tool1.visible=true;
 	Tool2.visible=true;
 	line.visible=false;
 	drawingData.DessinCorpsEnabled=false;
+	
 
 	drawingData.Nageoires=true;
 	pickingData.enabledNag=true;
@@ -24,7 +27,6 @@ function dessinNageoires(event, scene, camera, raycaster, screenSize, drawingDat
 
 function dessinPieds(event, scene, camera, raycaster, screenSize, drawingData,Minus){
 	utilsDrawing.extrusionFoot(raycaster, camera, drawingData,scene, true);
-	utilsDrawing.creationPalme(raycaster, camera, drawingData,scene, true,Minus);
 }
 
 function initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus){
@@ -62,6 +64,16 @@ function initPattes(event, scene, camera, raycaster, screenSize, drawingData,pic
 	pickingData.enabledEye=false;
 	pickingData.enabledPattes=true;
 	
+	const ToolF1 = scene.getObjectByName("ToolF1");
+	const ToolF2 = scene.getObjectByName("ToolF2");
+	ToolF1.visible=false;
+	ToolF2.visible=false;
+	
+	const ToolEye = scene.getObjectByName("ToolEye");
+	const ToolChimney = scene.getObjectByName("ToolChimney");
+	ToolEye.visible=false;
+	ToolChimney.visible=false;
+	
 }
 
 function initDrawingTools(scene){
@@ -71,14 +83,40 @@ function initDrawingTools(scene){
 	Tool1.visible=true;
 	Tool2.visible=true;
 	
+	const ToolF1 = scene.getObjectByName("ToolF1");
+	const ToolF2 = scene.getObjectByName("ToolF2");
+	ToolF1.visible=false;
+	ToolF2.visible=false;
+	
+	const ToolEye = scene.getObjectByName("ToolEye");
+	const ToolChimney = scene.getObjectByName("ToolChimney");
+	ToolEye.visible=false;
+	ToolChimney.visible=false;
+	
 }
 
 function initFoot(scene){
+	const Tool1 = scene.getObjectByName("Tool1");
+	const Tool2 = scene.getObjectByName("Tool2");
+	const ToolF1 = scene.getObjectByName("ToolF1");
+	const ToolF2 = scene.getObjectByName("ToolF2");
+	
+	Tool1.visible=false;
+	Tool2.visible=false;
+	ToolF1.visible=true;
+	ToolF2.visible=true;
+	
+	
 	const pied = scene.getObjectByName("pied");
 	const pied2 = scene.getObjectByName("pied2");
 	
-	pied.visible=false;
-	pied2.visible=false;
+	pied.visible=true;
+	pied2.visible=true;
+	
+	const pos = pied.localToWorld(new THREE.Vector3(0,0,0));
+	ToolF1.position.set(pos.x,pos.y-10,pos.z);
+	const pos2 = pied2.localToWorld(new THREE.Vector3(0,0,0));
+	ToolF2.position.set(pos2.x,pos2.y-10,pos2.z);
 	
 }
 
@@ -87,9 +125,14 @@ function initEye(scene,pickingData){
 	const Tool2 = scene.getObjectByName("Tool2");
 	const ToolEye = scene.getObjectByName("ToolEye");
 	const ToolChimney = scene.getObjectByName("ToolChimney");
+	const ToolF1 = scene.getObjectByName("ToolF1");
+	const ToolF2 = scene.getObjectByName("ToolF2");
+	ToolF1.visible=false;
+	ToolF2.visible=false;
 	
 	Tool1.visible=false;
 	Tool2.visible=false;
+	
 	ToolEye.visible=true;
 	ToolChimney.visible=false;
 	
@@ -105,6 +148,10 @@ function initChimney(scene,pickingData){
 	const Tool2 = scene.getObjectByName("Tool2");
 	const ToolEye = scene.getObjectByName("ToolEye");
 	const ToolChimney = scene.getObjectByName("ToolChimney");
+	const ToolF1 = scene.getObjectByName("ToolF1");
+	const ToolF2 = scene.getObjectByName("ToolF2");
+	ToolF1.visible=false;
+	ToolF2.visible=false;
 	
 	Tool1.visible=false;
 	Tool2.visible=false;

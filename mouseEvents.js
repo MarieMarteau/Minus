@@ -17,6 +17,9 @@ const mouseEvents = (function() {
         if (drawingData.DessinNageoiresEnabled || drawingData.DessinCorpsEnabled){
 		drawingData.enableDrawing = true;
 	  }
+	  if (drawingData.Pieds){
+		drawingData.enableDrawingFoot = true;
+	  }
 	  
 		pick(event, scene, camera, raycaster, screenSize, drawingData, pickingData,Minus);
 		
@@ -35,6 +38,9 @@ const mouseEvents = (function() {
 
       if (drawingData.enableDrawing == true){
         utilsDrawing.find3DPoint(raycaster, camera, x ,y, drawingData,scene, true);
+      }
+	  if (drawingData.enableDrawingFoot == true){
+        utilsDrawing.find3DPointFoot(raycaster, camera, x ,y, drawingData,scene, true);
       }
 	  
 
@@ -55,12 +61,13 @@ const mouseEvents = (function() {
 		else if (drawingData.DessinNageoiresEnabled && drawingData.Nageoires){
 			dessinNageoires(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
-		else if(drawingData.DessinNageoiresEnabled && drawingData.Pieds){
+		else if(drawingData.Pieds){
 			dessinPieds(event, scene, camera, raycaster, screenSize, drawingData,Minus)
 		}
 		
 		
       drawingData.enableDrawing = false;
+	  drawingData.enableDrawingFoot = false;
 	  pickingData.enableDragAndDropNag = false;
 	  pickingData.enableDragAndDropPattes = false;
 	   pickingData.enableDragAndDropEye = false;
@@ -77,6 +84,18 @@ const mouseEvents = (function() {
         scene.remove(drawingData.line);
         drawingData.selectedObject.add(drawingData.line);
         drawingData.drawing3DPoints = [];
+      }
+	  
+	  if (drawingData.drawing3DPointsFoot.length > 0){
+
+        drawingData.selectedObjectFoot.updateMatrix();
+        const matrice = drawingData.selectedObjectFoot.matrix;
+        matrice.getInverse(matrice);
+        drawingData.lineFoot.applyMatrix(matrice);
+
+        scene.remove(drawingData.lineFoot);
+        drawingData.selectedObjectFoot.add(drawingData.lineFoot);
+        drawingData.drawing3DPointsFoot = [];
       }
 
     },
@@ -105,7 +124,7 @@ const mouseEvents = (function() {
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			drawingData.Nageoires=true;
-			drawingData.Pieds=true;
+			drawingData.Pieds=false;
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
 			initDrawingTools(scene);
@@ -128,12 +147,12 @@ const mouseEvents = (function() {
 			drawingData.Pieds=true;
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
-			initDrawingTools(scene);
-			initFoot(scene);
 			pattesNoires(scene);
+			initFoot(scene);
+
 		}
 		
-		if (keyCode=="KeyM" && (drawingData.Nageoires ||drawingData.Pieds)){
+		if (keyCode=="KeyM" && (drawingData.Nageoires)){
 			drawingData.DessinNageoiresEnabled=false;
 			pickingData.enabledNag=true;
 			drawingData.drawing3DPoints=[];
@@ -143,7 +162,7 @@ const mouseEvents = (function() {
 		
 
 		
-		if (keyCode=="KeyD" && (drawingData.Nageoires ||drawingData.Pieds)){
+		if (keyCode=="KeyD" && (drawingData.Nageoires)){
 			pickingData.enabledNag=false;
 			drawingData.DessinNageoiresEnabled=true;
 		}
@@ -159,6 +178,7 @@ const mouseEvents = (function() {
 			pickingData.enabledNag=true;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
+			drawingData.Pieds=false;
 			initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus);
 		}
 		
@@ -168,6 +188,7 @@ const mouseEvents = (function() {
 			pickingData.enabledPattes=false;
 			pickingData.enabledEye=true;
 			pickingData.enabledChimney=false;
+			drawingData.Pieds=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initEye(scene,pickingData);
@@ -180,6 +201,7 @@ const mouseEvents = (function() {
 			pickingData.enabledPattes=false;
 			pickingData.enabledEye=false;
 			pickingData.enabledChimney=true;
+			drawingData.Pieds=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initChimney(scene,pickingData);
@@ -192,6 +214,14 @@ const mouseEvents = (function() {
 		
 		if(pickingData.enabledChimney && keyCode=="Enter"){
 			creationChimney(scene,pickingData);
+		}
+		
+		if(drawingData.Pieds && keyCode=="Enter"){
+			const pied = scene.getObjectByName("pied");
+			const pied2 = scene.getObjectByName("pied2");
+			pied.visible=false;
+			pied2.visible=false;
+			
 		}
 		
 		if(keyCode=="KeyA"){

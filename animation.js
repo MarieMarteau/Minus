@@ -1,29 +1,45 @@
+var theta = 0;
+var alpha = 0;
+var lastTime = 0;
+var L = 0;
+var init = false;
+var flx = true;
+var ext = false;
+var jmp = false;
+var fly = false;
+var fall = false;
+var v = 0;
+var wingAngle = 0;
+var flyBeginTime = 0;
+var i = 0;
+var isUp = true;
+const maxWingAngle = 0.5;
+const omega = 3;
+const maxPeriods = 3;
+const minTimeDelta = 0.1;
+const flexAngularSpeed = 0.05;
+const extSpeed = 2;
+const g = 0.1;
+
 function moveNag(Minus,t){
-	for(let i=0;i<Minus.surfacesG.length;i++){
-			const x = Minus.pointDepartG.x;
-			const y = Minus.pointDepartG.y;
-			const z = Minus.pointDepartG.z;
-			Minus.surfacesG[i].position.x+=-x;
-			Minus.surfacesG[i].position.y+=-y;
-			Minus.surfacesG[i].position.z+=-z;
-			Minus.surfacesG[i].rotation.y=0.5*Math.cos(t);
-			Minus.surfacesG[i].position.x+=x;
-			Minus.surfacesG[i].position.y+=y;
-			Minus.surfacesG[i].position.z+=z;
-			console.log(Minus.pointDepartG);
-		}
-		
-		for(let i=0;i<Minus.doigtsG.length;i++){
-			Minus.doigtsG[i].rotation.y=0.5*Math.cos(t);
-		}
-		
-		for(let i=0;i<Minus.surfacesD.length;i++){
-			Minus.surfacesD[i].rotation.y=-0.5*Math.cos(t);
-		}
-		
-		for(let i=0;i<Minus.doigtsD.length;i++){
-			Minus.doigtsD[i].rotation.y=-0.5*Math.cos(t);
-		}
+    const alpha = maxWingAngle*Math.sin(omega*t)-wingAngle;
+    wingAngle += alpha;
+    for(let i=0;i<Minus.surfacesG.length;i++){
+	Minus.surfacesG[i].rotateY(alpha);
+    }
+    
+    for(let i=0;i<Minus.doigtsG.length;i++){
+	Minus.doigtsG[i].rotateY(alpha);
+    }
+    
+    for(let i=0;i<Minus.surfacesD.length;i++){
+	Minus.surfacesD[i].rotateY(-alpha);
+    }
+    
+    for(let i=0;i<Minus.doigtsD.length;i++){
+	Minus.doigtsD[i].rotateY(-alpha);
+    }
+    return alpha;
 }
 
 function updateLegs(scene) {
@@ -52,16 +68,6 @@ function updateLegs(scene) {
     hautpatte2.name = ""
 }
 
-var theta = 0;
-var alpha = 0;
-var lastTime = 0;
-var L = 0;
-var init = false;
-var flx = true;
-var ext = false;
-var jmp = false;
-var v = 0;
-
 function animInit(scene) {
     const genou = scene.getObjectByName("genou");
     const pied = scene.getObjectByName("pied");
@@ -76,9 +82,9 @@ function animInit(scene) {
     init = true;
 }
 
-function flex(scene,t) {
+function flex(Minus,scene,t) {
     if(!init) {animInit(scene);}
-    if(t-lastTime < 0.1) {return;}
+    if(t-lastTime < minTimeDelta) {return;}
     const genou = scene.getObjectByName("genou");
     const pied = scene.getObjectByName("pied");
     const genou2 = scene.getObjectByName("genou2");
@@ -86,7 +92,7 @@ function flex(scene,t) {
     const body = scene.getObjectByName("body");
     let x = body.position.y;
     if(flx) {
-	alpha += 0.05; //vitesse angulaire de la flexion
+	alpha += flexAngularSpeed;
 	x = 2*L*(Math.cos(alpha)-1);
 	if(alpha > Math.PI/4) {
 	    alpha = Math.PI/4;
@@ -95,20 +101,49 @@ function flex(scene,t) {
 	}
     }
     if(ext) {
-	x += 1; //vitesse de l'extension
+	x += extSpeed; //vitesse de l'extension
 	alpha = Math.acos(x/(2*L)+1);
 	if(x > 0) {
 	    alpha = 0;
 	    ext = false;
 	    jmp = true;
-	    v = 1;
+	    v = extSpeed;
 	}
     }
     if(jmp) {
-	v -= 0.1; //acceleration de la pesanteur
+	v -= g; //acceleration de la pesanteur
+	x += v;
+	if(v < 0) {
+	    v = 0;
+	    jmp = false;
+	    fly = true;
+	    isUp = true;
+	    flyBeginTime = t;
+	    i = maxPeriods;
+	}
+    }
+    if(fly) {
+	v -= g - Math.max(0,-2.3*moveNag(Minus,t-flyBeginTime));
+	x += v;
+	if(!isUp && wingAngle > 0) {
+	    i -= 1;
+	    if(i==0) {
+		wingAngle = 0;
+		fly = false;
+		fall = true;
+	    }
+	    isUp = true;
+	}
+	if(isUp && wingAngle < 0) {
+	    isUp = false;
+	}
+    }
+    if(fall) {
+	v -= g;
 	x += v;
 	if(x < 0) {
-	    jmp = false;
+	    x = 0;
+	    fall = false;
 	    flx = true;
 	}
     }

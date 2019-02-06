@@ -32,6 +32,15 @@ function main(){
 	drawing3DPoints:[],
 	line: null,
 	doigtsNageoires:[],
+	
+	drawingObjectsFoot: [],
+	selectedObjectFoot: null,
+	enableDrawingFoot: false,
+	drawing3DPointsFoot:[],
+	lineFoot: null,
+	doigtsFoot:[],
+	
+	
     };
     
     const pickingData = {
@@ -142,6 +151,30 @@ function init3DObjects(camera,sceneGraph, drawingData, pickingData) {
     Tool2.visible = false;
     Tool2.position.set(-70,-30,0);
     sceneGraph.add(Tool2);
+	
+	//Outils pour les pieds
+    const ToolFG1 = new THREE.SphereGeometry(10,32,32);
+    const ToolFM1 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
+    const ToolF1 = new THREE.Mesh(ToolFG1,ToolFM1);
+    ToolF1.name="ToolF1";
+    ToolF1.receiveShadow = true;
+    drawingData.drawingObjectsFoot.push(ToolF1);
+
+    ToolF1.visible = false;
+    Tool1.position.set(-70,-10,0);
+    sceneGraph.add(ToolF1);
+	
+	const ToolFG2 = new THREE.SphereGeometry(10,32,32);
+    const ToolFM2 = new THREE.MeshLambertMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5});
+    const ToolF2 = new THREE.Mesh(ToolFG2,ToolFM2);
+    ToolF2.name="ToolF2";
+    ToolF2.receiveShadow = true;
+    drawingData.drawingObjectsFoot.push(ToolF2);
+
+    ToolF2.visible = false;
+    ToolF2.position.set(-70,-10,0);
+    sceneGraph.add(ToolF2);
+    
     
     //Outils placer yeux
     const ToolEyeG = new THREE.SphereGeometry(7,32,32);
@@ -202,14 +235,14 @@ function initEmptyScene(sceneThreeJs, affichageElement) {
     sceneInit.insertRenderInHtml(sceneThreeJs.renderer.domElement);
 
     sceneThreeJs.controls = new THREE.OrbitControls( sceneThreeJs.camera,sceneThreeJs.renderer.domElement );
-    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update1(sceneThreeJs.camera,spotLight1);},true);
+    /*sceneThreeJs.controls.addEventListener( 'change', function(event){light_update1(sceneThreeJs.camera,spotLight1);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update2(sceneThreeJs.camera,spotLight2);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update3(sceneThreeJs.camera,spotLight3);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update4(sceneThreeJs.camera,spotLight4);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update5(sceneThreeJs.camera,spotLight5);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update6(sceneThreeJs.camera,spotLight6);},true);
     sceneThreeJs.controls.addEventListener( 'change', function(event){light_update7(sceneThreeJs.camera,spotLight7);},true);
-    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update8(sceneThreeJs.camera,spotLight8);},true);
+    sceneThreeJs.controls.addEventListener( 'change', function(event){light_update8(sceneThreeJs.camera,spotLight8);},true);*/
 
     window.addEventListener('resize', function(event){onResize(sceneThreeJs);}, true);
 }
@@ -236,11 +269,9 @@ function animate(sceneThreeJs, animation, time,Minus) {
 		const body = Minus.corps;
 		if(body!=null){
 			//body.position.z+=0.1;
-			flex(sceneThreeJs.sceneGraph,t);
+			flex(Minus,sceneThreeJs.sceneGraph,t);
 		}
-		
-		console.log(Minus.surfacesG);
-		moveNag(Minus,t);
+		//moveNag(Minus,t);
 		
 	}
 	
