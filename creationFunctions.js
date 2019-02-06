@@ -101,6 +101,11 @@ function initFoot(scene){
 	const ToolF1 = scene.getObjectByName("ToolF1");
 	const ToolF2 = scene.getObjectByName("ToolF2");
 	
+	const ToolEye = scene.getObjectByName("ToolEye");
+	const ToolChimney = scene.getObjectByName("ToolChimney");
+	ToolEye.visible=false;
+	ToolChimney.visible=false;
+	
 	Tool1.visible=false;
 	Tool2.visible=false;
 	ToolF1.visible=true;

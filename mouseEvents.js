@@ -113,40 +113,45 @@ const mouseEvents = (function() {
 				
 
 		if (keyCode=="KeyN" ){
-			const ToolEye = scene.getObjectByName("ToolEye");
-			const ToolChimney = scene.getObjectByName("ToolChimney");
-	
-			ToolEye.visible=false;
-			ToolChimney.visible=false;
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=false;
-			pickingData.enabledChimney=false;
-			drawingData.drawing3DPoints=[];
-			drawingData.doigtsNageoires=[];
+			
+			pickingData.enabledNag= true;
+			pickingData.enableDragAndDropNag = false;
+			pickingData.enabledPattes= false;
+			pickingData.enableDragAndDropPattes = false;
+			pickingData.enableEye=false;
+			pickingData.enableDragAndDropEye = false;
+			pickingData.enableChimney=false;
+			pickingData.enableDragAndDropChimney = false;
+			drawingData.DessinCorpsEnabled=false;
+			drawingData.DessinNageoiresEnabled=false;
+			drawingData.DessinPiedsEnabled=false;
 			drawingData.Nageoires=true;
 			drawingData.Pieds=false;
-			drawingData.DessinNageoiresEnabled=false;
-			pickingData.enabledNag=true;
+			
+			drawingData.drawing3DPoints=[];
+			drawingData.doigtsNageoires=[];
 			initDrawingTools(scene);
 			pattesNoires(scene);
 		}
 		
 		if (keyCode=="KeyF" ){
-			const ToolEye = scene.getObjectByName("ToolEye");
-			const ToolChimney = scene.getObjectByName("ToolChimney");
-	
-			ToolEye.visible=false;
-			ToolChimney.visible=false;
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=false;
-			pickingData.enabledChimney=false;
 			
+			pickingData.enabledNag= false;
+			pickingData.enableDragAndDropNag = false;
+			pickingData.enabledPattes= false;
+			pickingData.enableDragAndDropPattes = false;
+			pickingData.enableEye=false;
+			pickingData.enableDragAndDropEye = false;
+			pickingData.enableChimney=false;
+			pickingData.enableDragAndDropChimney = false;
+			drawingData.DessinCorpsEnabled=false;
+			drawingData.DessinNageoiresEnabled=false;
+			drawingData.DessinPiedsEnabled=false;
 			drawingData.Nageoires=false;
 			drawingData.Pieds=true;
-			drawingData.DessinNageoiresEnabled=false;
-			pickingData.enabledNag=true;
+			
 			pattesNoires(scene);
 			initFoot(scene);
 
@@ -174,21 +179,41 @@ const mouseEvents = (function() {
 	
 			ToolEye.visible=false;
 			ToolChimney.visible=false;
+			
+			pickingData.enabledNag= true;
+			pickingData.enableDragAndDropNag = false;
+			pickingData.enabledPattes= false;
+			pickingData.enableDragAndDropPattes = false;
+			pickingData.enableEye=false;
+			pickingData.enableDragAndDropEye = false;
+			pickingData.enableChimney=false;
+			pickingData.enableDragAndDropChimney = false;
+			drawingData.DessinCorpsEnabled=false;
 			drawingData.DessinNageoiresEnabled=false;
-			pickingData.enabledNag=true;
+			drawingData.DessinPiedsEnabled=false;
+			drawingData.Nageoires=false;
+			drawingData.Pieds=false;
+			
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
-			drawingData.Pieds=false;
 			initPattes(event, scene, camera, raycaster, screenSize, drawingData,pickingData,Minus);
 		}
 		
 		if (keyCode=="KeyY"){
+			pickingData.enabledNag= false;
+			pickingData.enableDragAndDropNag = false;
+			pickingData.enabledPattes= false;
+			pickingData.enableDragAndDropPattes = false;
+			pickingData.enableEye=true;
+			pickingData.enableDragAndDropEye = false;
+			pickingData.enableChimney=false;
+			pickingData.enableDragAndDropChimney = false;
+			drawingData.DessinCorpsEnabled=false;
 			drawingData.DessinNageoiresEnabled=false;
-			pickingData.enabledNag=false;
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=true;
-			pickingData.enabledChimney=false;
+			drawingData.DessinPiedsEnabled=false;
+			drawingData.Nageoires=false;
 			drawingData.Pieds=false;
+			
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initEye(scene,pickingData);
@@ -196,12 +221,21 @@ const mouseEvents = (function() {
 		}
 		
 		if (keyCode=="KeyC"){
+			
+			pickingData.enabledNag= false;
+			pickingData.enableDragAndDropNag = false;
+			pickingData.enabledPattes= false;
+			pickingData.enableDragAndDropPattes = false;
+			pickingData.enableEye=false;
+			pickingData.enableDragAndDropEye = false;
+			pickingData.enableChimney=true;
+			pickingData.enableDragAndDropChimney = false;
+			drawingData.DessinCorpsEnabled=false;
 			drawingData.DessinNageoiresEnabled=false;
-			pickingData.enabledNag=false;
-			pickingData.enabledPattes=false;
-			pickingData.enabledEye=false;
-			pickingData.enabledChimney=true;
+			drawingData.DessinPiedsEnabled=false;
+			drawingData.Nageoires=false;
 			drawingData.Pieds=false;
+			
 			drawingData.drawing3DPoints=[];
 			drawingData.doigtsNageoires=[];
 			initChimney(scene,pickingData);
@@ -226,6 +260,22 @@ const mouseEvents = (function() {
 		
 		if(keyCode=="KeyA"){
 			animation.animate = !animation.animate;
+			pattesNoires(scene);
+			const Tool1 = scene.getObjectByName("Tool1");
+			const Tool2 = scene.getObjectByName("Tool2");
+			
+			Tool1.visible=false;
+			Tool2.visible=false;
+			
+			const ToolF1 = scene.getObjectByName("ToolF1");
+			const ToolF2 = scene.getObjectByName("ToolF2");
+			ToolF1.visible=false;
+			ToolF2.visible=false;
+			
+			const ToolEye = scene.getObjectByName("ToolEye");
+			const ToolChimney = scene.getObjectByName("ToolChimney");
+			ToolEye.visible=false;
+			ToolChimney.visible=false;
 		}
 		
 		const object = pickingData.selectedObject;
